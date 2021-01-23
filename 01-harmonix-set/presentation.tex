@@ -169,10 +169,27 @@
 	\frametitle{Dataset annotators}
 \end{frame}
 
-\begin{frame}
-	\frametitle{MIREX vs. HarmonixSet results}
+\begin{frame}[fragile]
+	\frametitle{MIREX vs. HarmonixSet result -- single case study}
+	Results from MIREX 2016: \href{https://www.music-ir.org/mirex/wiki/2016:MIREX2016_Results}{https://www.music-ir.org/mirex/wiki/2016:MIREX2016\_Results}
+	\textbf{F-measure for downbeat estimation}\\
+	``B{\"o}ck A'' (in HarmonixSet), ``BK4'' in MIREX\footcite{bocka}\\
+	\includegraphics[height=5cm]{./bocka_downbeats.png}
+	\includegraphics[height=5cm]{./bocka_downbeats_mirex2016.png}
 \end{frame}
 
+\note{
+	\begin{itemize}
+		\item
+			Selected 2016 as its the only recent year that had submissions and evaluations for all 3 challenges
+		\item
+			Adapted the harmonixset plotting code to plot mirex results for BK4
+		\item
+			My kneejerk reaction was ``HarmonixSet is too easy'', not the case for BK4
+		\item
+			Labor-intensive to repeat this for each challenge, each algorithm -- only one
+	\end{itemize}
+}
 
 \begin{frame}[fragile]
 	\frametitle{Gangnam style -- HarmonixSet annotations}
@@ -204,13 +221,12 @@
 
 \begin{frame}[fragile]
 	\frametitle{Gangnam style results -- beats}
-	Beat time output from INSERTURLHERE\footfullcite{madmombeats}
+	Beat time output\footfullcite{madmombeats}
 	\begin{verbatim}
 	beat times: [ 0.09  0.55  1. 1.46 1.91 2.37 2.82 3.28 ... ]
 	\end{verbatim}
 	vs. HarmonixSet ground truth
 	\begin{verbatim}
-	# dataset/beats_and_downbeats/0388_gangnamstyle.txt
 	0.079   1       1
 	0.54    2       1
 	1.017   3       1
@@ -225,11 +241,11 @@
 
 \begin{frame}[fragile]
 	\frametitle{Gangnam style results -- downbeats}
-	Downbeat time output from INSERTURLHERE\footfullcite{madmomdownbeats}
+	Downbeat time output\footfullcite{madmomdownbeats}
 	\begin{verbatim}
 	downbeat times: [1.0, 2.82, 4.64, 6.46, ...]
 	\end{verbatim}
-	vs. HarmonixSet ground truth (\textbf{NB!} not first beat of bar, but consistently lands on third)
+	vs. HarmonixSet ground truth
 	\begin{verbatim}
 	# awk '{ if ($2 == 3) { print }}' \
 	#     dataset/beats_and_downbeats/0388_gangnamstyle.txt
@@ -241,6 +257,13 @@
 	\end{verbatim}
 	Clicks: \href{run:./gangnam_downbeats.wav}{DOWNBEAT CLICKS}
 \end{frame}
+
+\note{
+	\begin{itemize}
+		\item
+		 \textbf{NB!} not first beat of bar, but consistently lands on third
+	\end{itemize}
+}
 
 \begin{frame}[fragile]
 	\frametitle{Gangnam style results -- segmentation}
