@@ -1,0 +1,185 @@
+\documentclass{beamer}
+\usetheme{Boadilla}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{fancyvrb}
+\usepackage{multicol}
+\usepackage{subfig}
+\usepackage[
+    backend=biber, 
+    natbib=true,
+    style=numeric,
+    sorting=none,
+    style=verbose-ibid,
+    labelyear
+]{biblatex}
+\addbibresource{citations.bib}
+\usepackage{pgfpages}
+\usepackage{xcolor}
+\definecolor{ao(english)}{rgb}{0.0, 0.5, 0.0}
+\definecolor{burgundy}{rgb}{0.5, 0.0, 0.13}
+%\setbeameroption{show notes}
+%\setbeameroption{show notes on second screen=right}
+\setbeameroption{hide notes}
+
+\title{The Harmonix Set}
+\subtitle{Beats, downbeats, and structural annotations for Western pop music}
+\author{Sevag Hanssian}
+\institute{MUMT 621, Winter 2021}
+\setbeamertemplate{navigation symbols}{}
+
+\begin{document}
+
+\begin{frame}
+\maketitle
+\href{run:./funkybass.wav}{SOUND CHECK}
+\end{frame}
+
+\begin{frame}
+	\frametitle{The Harmonix Set}
+	Abstract \footfullcite{harmonixpaper}, \footfullcite{harmonixrepo}
+	\begin{quote}
+	The Harmonix set: a collection of annotations of beats, downbeats, and functional segmentation for over 900 full tracks that covers a wide range of western popular music.  Given the variety of annotated music information types in this set, and how strongly these three types of data are typically intertwined,  we seek to foster \textbf{research that focuses on multiple retrieval tasks at once}.
+	\end{quote}
+\end{frame}
+
+\note{
+\begin{itemize}
+	\item
+		Harmonix is a video game studio -- created Rock Band, among others
+\end{itemize}
+}
+
+\begin{frame}
+	\frametitle{Fundamental MIR tasks}
+	\begin{enumerate}
+		\item
+			Beat tracking\ \\
+			MIREX task ``Audio Beat Tracking''\\
+			\href{https://www.music-ir.org/mirex/wiki/2006:Audio_Beat_Tracking}{https://www.music-ir.org/mirex/wiki/2006:Audio\_Beat\_Tracking}
+		\item
+			Downbeat estimation\ \\
+			MIREX task ``Audio Downbeat Estimation''\\
+			\href{https://www.music-ir.org/mirex/wiki/2014:Audio_Downbeat_Estimation}{https://www.music-ir.org/mirex/wiki/2014:Audio\_Downbeat\_Estimation}
+		\item
+			Structural segmentation\ \\
+			MIREX task ``Structural Segmentation''\\
+			\href{https://www.music-ir.org/mirex/wiki/2009:Structural_Segmentation}{https://www.music-ir.org/mirex/wiki/2009:Structural\_Segmentation}
+	\end{enumerate}\ \\
+	\vspace{2em}
+	Often interrelated: downbeats define the first beat of a measure, music segments begin and end on beat (frequently downbeat) locations
+\end{frame}
+
+\note{
+\begin{itemize}
+	\item
+		Sound waves can be modelled by air pressure variations or air molecule displacement
+\end{itemize}
+}
+
+\begin{frame}
+	\frametitle{Beat tracking and downbeat estimation}
+	The goal of beat tracking is to detect all beat locations in a song, or ``foot tapping''\footfullcite{ellis07}:
+	\begin{quote}
+	deriving from a music audio signal a sequence of beat instants that might correspond to when a human listener would tap their foot
+	\end{quote}
+	Example\footfullcite{madmombeats}: \href{run:./beat_clicks.wav}{BEAT WAV}\ \\\ \\
+	The goal of the related task, downbeat estimation, is to find the first beat of each bar (measure) rather than all beat times. \ \\
+	Example\footfullcite{madmomdownbeats}: \href{run:./downbeat_clicks.wav}{DOWNBEAT WAV}
+\end{frame}
+
+\begin{frame}
+	\frametitle{MIREX beat tracking datasets}
+	\begin{enumerate}
+		\item[2006]
+			First appearance of challenge \footfullcite{beatmeta}
+			\begin{quote}
+			The MCK dataset contains 160 30-second audio excerpts and was created by the MIREX team in 2006. The recordings are characterized by a stable tempo and a wide variety of instrumentations and musical styles.  About 20\% of the files have non-binary meters.
+			\end{quote}
+		\item[2009]
+			Second dataset, Chopin Mazurkas
+			\begin{quote}
+			The MAZ dataset contains piano recordings of 322 Chopin Mazurkas, which also include tempo changes.
+			\end{quote}
+		\item[2012]
+			Third dataset \footfullcite{beats2012}
+			\begin{quote}
+			Consists of 217 excerpts around 40s each, majority is difficult to track (e.g. changes in meter and tempo, bad sound quality, expressive timing). It includes romantic music, film soundtracks, blues, chanson, and solo guitar
+			\end{quote}
+	\end{enumerate}
+\end{frame}
+
+\note{
+	\begin{itemize}
+		\item
+			MCK named after McKinney? not really explained, but colloquially looks to be true
+		\item
+			First dataset is same dataset used in \href{https://www.music-ir.org/mirex/wiki/2006:Audio_Tempo_Extraction}{https://www.music-ir.org/mirex/wiki/2006:Audio\_Tempo\_Extraction}
+	\end{itemize}
+}
+
+\begin{frame}
+	\frametitle{Beat tracking results}
+	HarmonixSet vs. existing ones. Chopin mazurka hard
+\end{frame}
+
+\begin{frame}
+	\frametitle{Dataset recreation and copyright}
+	Data provided to allow independent recreation of dataset includes:\\
+	Identifiers in shared music databases:
+	\begin{enumerate}
+		\item
+			MusicBrainz ID \footfullcite{musicbrainz}, open music encyclopedia including unique identifiers for recordings, releases, artists, etc.
+		\item
+			AcoustID (\href{https://acoustid.org/}{https://acoustid.org/}), open source fingerprinting service to easily match audio content associated with MusicBrainz ids
+		\item
+			YouTube URLs, including alignment information with the original mp3 files used in the paper
+	\end{enumerate}
+	Audio/DSP features:
+	\begin{enumerate}
+		\item
+			mel spectrograms for the original mp3 files
+		\item
+			estimated onsets for the first 30 seconds of audio from librosa
+	\end{enumerate}
+\end{frame}
+
+\note{
+\begin{itemize}
+	\item
+		Original mp3 files cannot legally be distributed due to copyright
+	\item
+		Note that these audio features are automated (onsets and spectrograms). This allows independent recreation (aligning the direct output of librosa's onset function on my files and comparing it to their's)
+	\item
+		Keep in mind onsets are (most likely) essential in beat/downbeat/segmentation tracking. note onsets mark musical events, its a fact. but the raw librosa onset data isn't the opinionated ``algorithm being evaluated'', in this sense its used as a straight feature
+\end{itemize}
+}
+
+\begin{frame}
+	\frametitle{Audio alignment}
+	YouTube music video, or different file formats or recordings obtained by researchers, may have temporal differences with the original mp3 files. Alignment data is included to
+	\begin{quote}
+	... help align the audio in case researchers obtain audio data with different compression formats that might include certain small temporal offsets.
+	\end{quote}
+	Algorithms used for alignment:
+	\begin{enumerate}
+		\item
+			Dynamic time warping \footfullcite{dtw}, \footfullcite{dtwnotebook}
+		\item
+			Onsets \footfullcite{librosaonset}
+	\end{enumerate}
+\end{frame}
+
+\note{
+\begin{itemize}
+	\item
+		DTW in a nutshell:
+		\begin{quote}
+		DTW has been successfully applied to automatically cope with time deformations and different speeds associated with time-dependent data.
+		\end{quote}
+	\item
+		Onsets don't quite solve the problem, unlike DTW. They're just timestamped information. One would have to do some manual work to compare their onsets to the harmonixset onsets and compute the temporal difference -- or perhaps it can be used as an indicator to run DTW
+\end{itemize}
+}
+
+\end{document}
