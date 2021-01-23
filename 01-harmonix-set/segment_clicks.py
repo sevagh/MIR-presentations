@@ -47,7 +47,7 @@ def main():
     x = load_wav(args.wav_in)
 
     # copy-pasted in from librosa_plot_segmentation.py
-    segment_times = [0.58049887, 7.87156463, 8.82358277, 12.63165533, 14.90721088, 16.27718821, 19.99238095]
+    segment_times = [0.58049887, 8.08054422, 11.74929705, 14.09451247]
 
     silence = numpy.zeros(int(0.5*44100))
 

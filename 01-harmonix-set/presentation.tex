@@ -37,48 +37,48 @@
 
 \begin{frame}
 	\frametitle{The Harmonix Set}
-	Abstract \footfullcite{harmonixpaper}, \footfullcite{harmonixrepo}
 	\begin{quote}
-	The Harmonix set: a collection of annotations of beats, downbeats, and functional segmentation for over 900 full tracks that covers a wide range of western popular music.  Given the variety of annotated music information types in this set, and how strongly these three types of data are typically intertwined,  we seek to foster \textbf{research that focuses on multiple retrieval tasks at once}.
+	Collection of annotations of beats, downbeats, and functional segmentation for over 900 full tracks that covers a wide range of western popular music, to foster research that focuses on multiple retrieval tasks at once.\footcite{harmonixpaper}, \footcite{harmonixrepo}
 	\end{quote}
+	
 \end{frame}
 
 \note{
 \begin{itemize}
 	\item
 		Harmonix is a video game studio -- created Rock Band, among others
+	\item
+		Goal was to use pop, dance, EDM music for a rhythm game. However, less simple (e.g. 4/4 edm) examples were also added to make HarmonixSet more challenging
 \end{itemize}
 }
 
 \begin{frame}
-	\frametitle{Fundamental MIR tasks}
+	\frametitle{Three fundamental MIR tasks}
 	\begin{enumerate}
 		\item
-			Beat tracking\ \\
-			MIREX task ``Audio Beat Tracking''\\
-			\href{https://www.music-ir.org/mirex/wiki/2006:Audio_Beat_Tracking}{https://www.music-ir.org/mirex/wiki/2006:Audio\_Beat\_Tracking}
+			MIREX task ``Audio Beat Tracking''\footcite{mirexabt}
 		\item
-			Downbeat estimation\ \\
-			MIREX task ``Audio Downbeat Estimation''\\
-			\href{https://www.music-ir.org/mirex/wiki/2014:Audio_Downbeat_Estimation}{https://www.music-ir.org/mirex/wiki/2014:Audio\_Downbeat\_Estimation}
+			MIREX task ``Audio Downbeat Estimation''\footcite{mirexade}
 		\item
-			Structural segmentation\ \\
-			MIREX task ``Structural Segmentation''\\
-			\href{https://www.music-ir.org/mirex/wiki/2009:Structural_Segmentation}{https://www.music-ir.org/mirex/wiki/2009:Structural\_Segmentation}
-	\end{enumerate}\ \\
-	\vspace{2em}
-	Often interrelated: downbeats define the first beat of a measure, music segments begin and end on beat (frequently downbeat) locations
+			MIREX task ``Structural Segmentation''\footcite{mirexss}
+	\end{enumerate}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Onset detection, beat tracking, downbeat estimation, structural segmentation}
-	The goal of onset detection is finding the time-locations of all sonic events in a piece of audio\footfullcite{onsetmirex}\\
-	\vspace{1em}
-	The goal of beat tracking is to detect all beat locations in a song, or ``beat instants that might correspond to when a human listener would tap their foot''\footfullcite{ellis07}\\
-	\vspace{1em}
-	The goal of the related task, downbeat estimation, is to find the first beat of each bar (measure)\\
-	\vspace{1em}
-	The goal of structural segmentation evaluation is to identify the key structural sections in musical audio
+	\frametitle{Onsets, beats, tempo, downbeats, segments}
+	All of these are interrelated \footcite{beattempo}\\
+	\begin{enumerate}
+		\item
+			Onset detection: find start times of acoustic events
+		\item
+			Beat tracking: find beat locations from recurring patterns of onsets (``foot tapping'')
+		\item
+			Tempo estimation: calculate it from the interbeat interval
+		\item
+			Downbeat estimation: estimate the first beat in each bar (or measure)
+		\item
+			Structural segments: identify the key structural sections in musical audio, which begin and end on beat (frequently downbeat) locations
+	\end{enumerate}
 \end{frame}
 
 \note{
@@ -94,13 +94,14 @@
 
 \begin{frame}
 	\frametitle{MIREX beat tracking datasets}
+	Summary of MIREX beat tracking datasets\footfullcite{beatmeta}
 	\begin{enumerate}
 		\item[2006]
-			First appearance of challenge \footfullcite{beatmeta}; \textit{the MCK dataset contains 160 30-second audio excerpts created by the MIREX team in 2006. Characterized by stable tempo, wide variety of instrumentations and musical styles. 20\% of the files have non-binary meters.}
+			First appearance of challenge; \textit{the MCK dataset contains 160 30-second audio excerpts created by the MIREX team in 2006. Characterized by stable tempo, wide variety of instrumentations and musical styles. 20\% of the files have non-binary meters.}
 		\item[2009]
-			Second dataset, Chopin Mazurkas\footfullcite{mazurkahard}; \textit{the MAZ dataset contains piano recordings of 322 Chopin Mazurkas, which include tempo changes.}
+			Second dataset, Chopin Mazurkas; \textit{the MAZ dataset contains piano recordings of 322 Chopin Mazurkas, which include tempo changes.}
 		\item[2012]
-			Third dataset \footfullcite{beats2012}; \textit{consists of 217 excerpts around 40s each, majority is difficult to track (e.g. changes in meter and tempo, bad sound quality, expressive timing). It includes romantic music, film soundtracks, blues, chanson, and solo guitar}
+			Third dataset; \textit{consists of 217 excerpts around 40s each, majority is difficult to track (e.g. changes in meter and tempo, bad sound quality, expressive timing). It includes romantic music, film soundtracks, blues, chanson, and solo guitar}
 	\end{enumerate}
 \end{frame}
 
@@ -110,8 +111,6 @@
 			MCK named after McKinney? not really explained, but colloquially looks to be true
 		\item
 			First dataset is same dataset used in \href{https://www.music-ir.org/mirex/wiki/2006:Audio_Tempo_Extraction}{https://www.music-ir.org/mirex/wiki/2006:Audio\_Tempo\_Extraction}
-		\item
-			the case study is an important paper. since the HarmonixSet is new, similar assessment hasn't been done yet. goes to show that there are advantages to using well-known datasets, for existing literature
 	\end{itemize}
 }
 
@@ -121,13 +120,15 @@
 		\item[2014]
 			Six different datasets from diverse geographic and stylistic sources:
 			\textbf{The Beatles} \footcite{beatles}, \textbf{HJDB} \footcite{hjdb} (Hardcore, Jungle, Drum and Bass)
-			\textbf{Turkish} \footcite{turkish}, \textbf{Ballroom} \footcite{ballroom}
+			\textbf{Turkish} \footcite{turkish}, \textbf{Ballroom} \footcite{ballroom},
 			\textbf{Carnatic} \footcite{carnatic}, \textbf{Cretan} \footcite{cretan}
 	\end{enumerate}
 \end{frame}
 
 \note{
 	\begin{itemize}
+		\item
+			beatles, later known as the \textbf{Isophonics Dataset} with more than just The Beatles
 		\item
 			Interesting trend, in beat tracking, MIREX supplied the dataset
 		\item
@@ -137,16 +138,8 @@
 
 \begin{frame}
 	\frametitle{MIREX structural segmentation datasets}
-	MIREX datasets:
-	\begin{enumerate}
-		\item
-			\textbf{The Beatles} (same as beat/downbeat Beatles dataset) \footcite{beatles}
-		\item
-			Subset of \textbf{RWC} \footcite{rwc}
-		\item
-			Evolution of The Beatles dataset, \textbf{Isophonics Dataset}\footcite{isophonics}
-	\end{enumerate}
-	Difficult traits of structural segmentation:
+	MIREX initial dataset included \textbf{The Beatles} and a subset of \textbf{RWC} \footcite{rwc}\\
+	Traits of structural segmentation:
 	\begin{enumerate}
 		\item
 			Ambiguous -- more than one valid annotation for a given track
@@ -159,15 +152,44 @@
 \note{
 	\begin{itemize}
 		\item
+			same as beat/downbeat Beatles dataset
+		\item
 			Difference from beat/downbeat annotations: cannot have excerpts, need whole song
 		\item
 			Hierarchical vs flat segments
+		\item
+			Mirex 2016 for segmentation = partial SALAMI
 	\end{itemize}
 }
 
 \begin{frame}
-	\frametitle{Dataset annotators}
+	\frametitle{Traits of datasets}
+	MIREX datasets:
+	\begin{itemize}
+		\item
+			MIREX datasets can have multiple annotators, a single annotator, or even semi-automated annotations using algorithm outputs
+		\item
+			Post-processing of first-pass, raw annotations involves iterative adjustment until annotators are satisfied
+		\item
+			Selection of songs for style-specificity (either targeting a specific style, or including diverse styles), to adjust western/non-western bias, or based on perceived difficulty (on a musical or signal processing level)
+	\end{itemize}
+	HarmonixSet:
+	\begin{itemize}
+		\item
+			Songs were annotated by trained professional musicians who regularly work in music production environments (using DAW + MIDI)
+		\item
+			Mix of genres were chosen to be typical of ones used in the rhythm-action games, tendency to pop/EDM for dancing
+		\item
+			Tend to have a very stable tempo and a 4/4 time signature, however some atypical songs (classic rock, country, metal) were included with less stable tempo and which may deviate from a strict 4/4 meter
+	\end{itemize}
 \end{frame}
+
+\note{
+	\begin{itemize}
+		\item
+			tricky -- need to ensure human curation of algorithm output, since these are meant for evaluating algorithms in the first place
+	\end{itemize}
+}
 
 \begin{frame}[fragile]
 	\frametitle{MIREX vs. HarmonixSet result -- single case study}
@@ -220,6 +242,29 @@
 \end{frame}
 
 \begin{frame}[fragile]
+	\frametitle{Gangnam style temporal alignment -- onsets}
+	Onset output\footfullcite{librosaonset}
+	\begin{verbatim}
+	onset times: [ 1.01006803  1.46285714  1.69505669 
+	       1.92725624  2.04335601  2.38004535
+	       2.6122449   2.83283447  3.29723356 ...
+	\end{verbatim}
+	vs. HarmonixSet onsets (from JAMS file)
+	\begin{verbatim}
+	0.139 0.604 0.813 1.068 1.184 1.509 1.95
+	2.415 2.647 2.879 3.088 ...
+	\end{verbatim}
+	Clicks: \href{run:./gangnam_onsets.wav}{ONSET CLICKS}
+\end{frame}
+
+\note{
+	\begin{itemize}
+		\item
+			I tried librosa 0.8.0, 0.7.0, default onset parameters, same as harmonixset -- strange mismatch in onset values. Should report
+	\end{itemize}
+}
+
+\begin{frame}[fragile]
 	\frametitle{Gangnam style results -- beats}
 	Beat time output\footfullcite{madmombeats}
 	\begin{verbatim}
@@ -267,18 +312,27 @@
 
 \begin{frame}[fragile]
 	\frametitle{Gangnam style results -- segmentation}
-	Structural segmentation output from INSERTURLHERE\footfullcite{librosaseg}
+	Structural segmentation output\footfullcite{librosaseg}
 	\begin{verbatim}
-	segments: [ 0.58049887  7.87156463  8.82358277 12.63165533
-	      	    14.90721088 16.27718821 19.99238095]
+	segments: [  0.58049887   8.08054422  11.74929705 
+            14.09451247 ...
 	\end{verbatim}
 	vs. HarmonixSet ground truth
 	\begin{verbatim}
-	0.079 intro, 6.010905 chorus, 14.64726 verse
+	0.079 intro 6.010905 chorus 14.64726 verse ...
 	\end{verbatim}
-	\includegraphics[width=9.5cm]{./laplacian_segments.png}\\
-	\href{run:./gangnam_segments.wav}{SEGMENT PAUSES}, \href{run:./gangnam_segments_truth.wav}{TRUTH SEGMENT PAUSES}
+	\href{run:./gangnam_segments.wav}{SEGMENT PAUSES}\\
+	\href{run:./gangnam_segments_truth.wav}{GROUND TRUTH SEGMENT PAUSES}
 \end{frame}
+
+\note{
+	\begin{itemize}
+		\item
+			First 20 second output of the whole processed song
+		\item
+			Essential that whole song is used as an input. having half the song changes the nature of segmentation. self-similarity, need whole song to know full knowledge
+	\end{itemize}
+}
 
 \begin{frame}
 	\frametitle{Audio alignment}
@@ -307,29 +361,6 @@
 \end{itemize}
 }
 
-\begin{frame}[fragile]
-	\frametitle{Gangnam style temporal alignment -- onsets}
-	Onset output from INSERTURLHERE\footfullcite{librosaonset}
-	\begin{verbatim}
-	onset times: [ 1.01006803  1.46285714  1.69505669 
-	       1.92725624  2.04335601  2.38004535
-	       2.6122449   2.83283447  3.29723356 ...
-	\end{verbatim}
-	vs. HarmonixSet onsets from JAMS file from INSERTURLHERE
-	\begin{verbatim}
-	# ./jams_onsets.py dataset/jams/0388_gangnamstyle.jams
-	0.139 0.604 0.813 1.068 1.184 1.509 1.95
-	2.415 2.647 2.879 3.088 ...
-	\end{verbatim}
-	Clicks: \href{run:./gangnam_onsets.wav}{ONSET CLICKS}
-\end{frame}
-
-\note{
-	\begin{itemize}
-		\item
-			I tried librosa 0.8.0, 0.7.0, default onset parameters, same as harmonixset -- strange mismatch in onset values. Should report
-	\end{itemize}
-}
 
 \begin{frame}
 	\frametitle{Dataset recreation and copyright}
@@ -362,5 +393,22 @@
 		Keep in mind onsets are (most likely) essential in beat/downbeat/segmentation tracking. note onsets mark musical events, its a fact. but the raw librosa onset data isn't the opinionated ``algorithm being evaluated'', in this sense its used as a straight feature
 \end{itemize}
 }
+
+\begin{frame}
+	\frametitle{Conclusion}
+	The HarmonixSet is a high-quality dataset of ground truth annotations for beats, downbeats, and segments in over 900 popular music tracks. Open source, clear repository structure, Jupyter notebooks, approachable and reproducible.\\
+	\vspace{1em}
+	Future work: meta-study to analyze
+	\begin{enumerate}
+		\item
+			Results for algorithms across MIREX challenge datasets
+		\item
+			Same algorithms applied to the HarmonixSet
+		\item
+			Comparison of results to gauge the characteristics of the HarmonixSet over established datasets, e.g. in the vein of \cite{mazurkahard}
+	\end{enumerate}
+	\vspace{1em}
+	Source latex and Python code for this presentation: \href{https://gitlab.com/sevagh/MIR-presentations/-/tree/master/01-harmonix-set}{https://gitlab.com/sevagh/MIR-presentations/-/tree/master/01-harmonix-set}
+\end{frame}
 
 \end{document}

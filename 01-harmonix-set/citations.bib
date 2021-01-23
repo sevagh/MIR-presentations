@@ -1,7 +1,45 @@
+@article{harmonixpaper,
+title={The Harmonix Set: Beats, Downbeats, and Functional Segment Annotations of Western Popular Music},
+author={Oriol Nieto and Matthew McCallum and Matthew Davies and Andrew Robertson and Adam Stark and Eran Egozy},
+year={2019},
+journal={Proc. of the 20th International Society for Music Information Retrieval Conference (ISMIR), Delft, The Netherlands, 2019},
+url={https://ccrma.stanford.edu/~urinieto/MARL/publications/ISMIR2019-Nieto-Harmonix.pdf},
+}
+
 @website{harmonixrepo,
 title={urinieto/harmonixset},
 url={https://github.com/urinieto/harmonixset},
 journal={GitHub}}
+
+@website{madmombeats,
+url={https://madmom.readthedocs.io/en/latest/modules/features/beats.html},
+title={madmom.features.beats},
+journal={madmom documentation}}
+
+@website{madmomdownbeats,
+url={https://madmom.readthedocs.io/en/latest/modules/features/downbeats.html},
+title={madmom.features.downbeats},
+journal={madmom documentation}}
+
+@website{mirexabt,
+title={2006:Audio Beat Tracking},
+url={https://www.music-ir.org/mirex/wiki/2006:Audio_Beat_Tracking},
+journal={MIREX Wiki}}
+
+@website{mirexade,
+title={2014:Audio Downbeat Estimation},
+url={https://www.music-ir.org/mirex/wiki/2014:Audio_Downbeat_Estimation},
+journal={MIREX Wiki}}
+
+@website{mirexss,
+title={2009:Structual Segmentation},
+url={https://www.music-ir.org/mirex/wiki/2009:Structural_Segmentation},
+journal={MIREX Wiki}}
+
+@website{beattempo,
+title = {Tempo and Beat Tracking},
+author={Meinard Müller, Christof Weiss, Stefan Balke},
+url={https://www.audiolabs-erlangen.de/resources/MIR/2017-GI-Tutorial-Musik/2017_MuellerWeissBalke_GI_BeatTracking.pdf}}
 
 @website{librosaonset,
 title={librosa.onset.onset{\_}detect},
@@ -13,12 +51,6 @@ title={Laplacian segmentation},
 url={https://librosa.org/librosa_gallery/auto_examples/plot_segmentation.html},
 journal={librosa-gallery 0.1.0 documentation}}
 
-@website{onsetmirex,
-title={2018:Audio Onset Detection},
-url={https://www.music-ir.org/mirex/wiki/2018:Audio_Onset_Detection},
-journal={MIREX Wiki}}
-
-
 @website{librosabeats,
 title={beat\_tracking},
 url={https://musicinformationretrieval.com/beat_tracking.html},
@@ -28,14 +60,6 @@ journal={musicinformationretrieval.com}}
 title={Audio Alignment for Harmonix Set},
 url={https://github.com/urinieto/harmonixset/blob/master/notebooks/Audio%20Alignment.ipynb},
 journal={GitHub}}
-
-@article{harmonixpaper,
-title={The Harmonix Set: Beats, Downbeats, and Functional Segment Annotations of Western Popular Music},
-author={Oriol Nieto and Matthew McCallum and Matthew Davies and Andrew Robertson and Adam Stark and Eran Egozy},
-year={2019},
-journal={Proc. of the 20th International Society for Music Information Retrieval Conference (ISMIR), Delft, The Netherlands, 2019},
-url={https://ccrma.stanford.edu/~urinieto/MARL/publications/ISMIR2019-Nieto-Harmonix.pdf},
-}
 
 @article{dtw,
 author = {Müller, Meinard},
@@ -58,32 +82,10 @@ number={1},
 pages={76-77},
 doi={10.1109/5254.988466}}
 
-@article{ellis07,
-author = {Ellis, Daniel},
-year = {2007},
-month = {03},
-pages = {51-60},
-title = {Beat Tracking by Dynamic Programming},
-volume = {36},
-journal = {Journal of New Music Research},
-doi = {10.1080/09298210701653344}
-}
-
 @misc{beatmeta,
   title={MIREX 2012 AUDIO BEAT TRACKING EVALUATION : NEUROBEAT},
   author={E. Krebs and S. B{\"o}ck},
   year={2012}
-}
-
-@article{beats2012,
-author = {Holzapfel, Andre and Davies, Matthew and Zapata, Jose and Oliveira, João and Gouyon, Fabien},
-year = {2012},
-month = {11},
-pages = {2539-2548},
-title = {Selective Sampling for Beat Tracking Evaluation},
-volume = {20},
-journal = {Audio, Speech, and Language Processing, IEEE Transactions on},
-doi = {10.1109/TASL.2012.2205244}
 }
 
 @inproceedings{jams,
@@ -161,4 +163,39 @@ doi = {10.1109/ICASSP.2014.6854598}
   author={S. B{\"o}ck and F. Krebs and G. Widmer},
   booktitle={ISMIR},
   year={2016}
+}
+
+@inproceedings{rwc,
+author = {Goto, Masataka and Hashiguchi, Hiroki and Nishimura, Takuichi and Oka, Ryuichi},
+year = {2002},
+month = {01},
+pages = {},
+title = {RWC Music Database: Popular, Classical, and Jazz Music Databases},
+booktitle = {ISMIR 2002, 3rd International Conference on Music Information Retrieval, Paris, France, October 13-17, 2002, Proceedings}
+}
+
+@inproceedings{salami,
+author = {Smith, Jordan and Burgoyne, John and Fujinaga, Ichiro and De Roure, David and Downie, J.},
+year = {2011},
+month = {01},
+pages = {555-560},
+title = {Design and creation of a large-scale database of structural annotations.},
+booktitle = {Proceedings of the 12th International Society for Music Information Retrieval Conference, ISMIR 2011, Miami, Florida, USA, October 24-28, 2011}
+}
+
+@inproceedings{spam,
+  author       = {Oriol Nieto and
+                  Juan Pablo Bello},
+  title        = {{Systematic Exploration of Computational Music 
+                   Structure Research.}},
+  booktitle    = {{Proceedings of the 17th International Society for 
+                   Music Information Retrieval Conference}},
+  year         = 2016,
+  pages        = {547-553},
+  publisher    = {ISMIR},
+  address      = {New York City, United States},
+  month        = aug,
+  venue        = {New York City, United States},
+  doi          = {10.5281/zenodo.1417661},
+  url          = {https://doi.org/10.5281/zenodo.1417661}
 }
