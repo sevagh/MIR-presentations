@@ -11,7 +11,6 @@
     style=numeric,
     sorting=none,
     style=verbose-ibid,
-    labelyear
 ]{biblatex}
 \addbibresource{citations.bib}
 \usepackage{pgfpages}
@@ -38,9 +37,16 @@
 \begin{frame}
 	\frametitle{The Harmonix Set}
 	\begin{quote}
-	Collection of annotations of beats, downbeats, and functional segmentation for over 900 full tracks that covers a wide range of western popular music, to foster research that focuses on multiple retrieval tasks at once.\footcite{harmonixpaper}, \footcite{harmonixrepo}
+	Annotations of beats, downbeats, and functional segmentation for over 900 full tracks that covers a wide range of western popular music, to foster research that focuses on multiple retrieval tasks at once.\footcite{harmonixpaper}, \footcite{harmonixrepo}
 	\end{quote}
-	
+	\begin{enumerate}
+		\item
+			MIREX task ``Audio Beat Tracking''\footcite{mirexabt}
+		\item
+			MIREX task ``Audio Downbeat Estimation''\footcite{mirexade}
+		\item
+			MIREX task ``Structural Segmentation''\footcite{mirexss}
+	\end{enumerate}
 \end{frame}
 
 \note{
@@ -51,18 +57,6 @@
 		Goal was to use pop, dance, EDM music for a rhythm game. However, less simple (e.g. 4/4 edm) examples were also added to make HarmonixSet more challenging
 \end{itemize}
 }
-
-\begin{frame}
-	\frametitle{Three fundamental MIR tasks}
-	\begin{enumerate}
-		\item
-			MIREX task ``Audio Beat Tracking''\footcite{mirexabt}
-		\item
-			MIREX task ``Audio Downbeat Estimation''\footcite{mirexade}
-		\item
-			MIREX task ``Structural Segmentation''\footcite{mirexss}
-	\end{enumerate}
-\end{frame}
 
 \begin{frame}
 	\frametitle{Onsets, beats, tempo, downbeats, segments}
@@ -111,6 +105,8 @@
 			MCK named after McKinney? not really explained, but colloquially looks to be true
 		\item
 			First dataset is same dataset used in \href{https://www.music-ir.org/mirex/wiki/2006:Audio_Tempo_Extraction}{https://www.music-ir.org/mirex/wiki/2006:Audio\_Tempo\_Extraction}
+		\item
+			musical vs. dsp difficulty
 	\end{itemize}
 }
 
@@ -146,7 +142,7 @@
 		\item
 			Subjective -- different listeners can perceive different segments
 	\end{enumerate}
-	Solutions: SALAMI\footcite{salami}, SPAM\footcite{spam} (multiple annotations per track by different experts), which also introduce hierarchical segments
+	Solutions: SALAMI\footcite{salami}, SPAM\footcite{spam} include multiple annotations per track by different experts
 \end{frame}
 
 \note{
@@ -156,9 +152,9 @@
 		\item
 			Difference from beat/downbeat annotations: cannot have excerpts, need whole song
 		\item
-			Hierarchical vs flat segments
-		\item
 			Mirex 2016 for segmentation = partial SALAMI
+		\item
+			Hierarchical vs flat segments
 	\end{itemize}
 }
 
@@ -240,29 +236,6 @@
 	\end{enumerate}
 
 \end{frame}
-
-\begin{frame}[fragile]
-	\frametitle{Gangnam style temporal alignment -- onsets}
-	Onset output\footfullcite{librosaonset}
-	\begin{verbatim}
-	onset times: [ 1.01006803  1.46285714  1.69505669 
-	       1.92725624  2.04335601  2.38004535
-	       2.6122449   2.83283447  3.29723356 ...
-	\end{verbatim}
-	vs. HarmonixSet onsets (from JAMS file)
-	\begin{verbatim}
-	0.139 0.604 0.813 1.068 1.184 1.509 1.95
-	2.415 2.647 2.879 3.088 ...
-	\end{verbatim}
-	Clicks: \href{run:./gangnam_onsets.wav}{ONSET CLICKS}
-\end{frame}
-
-\note{
-	\begin{itemize}
-		\item
-			I tried librosa 0.8.0, 0.7.0, default onset parameters, same as harmonixset -- strange mismatch in onset values. Should report
-	\end{itemize}
-}
 
 \begin{frame}[fragile]
 	\frametitle{Gangnam style results -- beats}
