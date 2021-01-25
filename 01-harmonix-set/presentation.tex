@@ -55,35 +55,9 @@
 		Harmonix is a video game studio -- created Rock Band, among others
 	\item
 		Goal was to use pop, dance, EDM music for a rhythm game. However, less simple (e.g. 4/4 edm) examples were also added to make HarmonixSet more challenging
+	\item
+		corey kereliuk introduction -- foot tapping + chess
 \end{itemize}
-}
-
-\begin{frame}
-	\frametitle{Onsets, beats, tempo, downbeats, segments}
-	All of these are interrelated \footcite{beattempo}\\
-	\begin{enumerate}
-		\item
-			Onset detection: find start times of acoustic events
-		\item
-			Beat tracking: find beat locations from recurring patterns of onsets (``foot tapping'')
-		\item
-			Tempo estimation: calculate it from the interbeat interval
-		\item
-			Downbeat estimation: estimate the first beat in each bar (or measure)
-		\item
-			Structural segments: identify the key structural sections in musical audio, which begin and end on beat (frequently downbeat) locations
-	\end{enumerate}
-\end{frame}
-
-\note{
-	\begin{itemize}
-		\item
-			Important to note that beat tracking is not necessarily based on, or a subset, of onset detection. Many popular implementations are, though
-		\item
-			It should be noted that none of the evaluation measures cares about the true labels of the sections: they only denote the clustering. This means that it does not matter if the systems produce true labels such as "chorus" and "verse", or arbitrary labels such as "A" and "B". 
-		\item
-			corey kereliuk introduction -- foot tapping + chess
-	\end{itemize}
 }
 
 \begin{frame}
@@ -155,6 +129,8 @@
 			Mirex 2016 for segmentation = partial SALAMI
 		\item
 			Hierarchical vs flat segments
+		\item
+			It should be noted that none of the evaluation measures cares about the true labels of the sections: they only denote the clustering. This means that it does not matter if the systems produce true labels such as "chorus" and "verse", or arbitrary labels such as "A" and "B". 
 	\end{itemize}
 }
 
@@ -309,7 +285,7 @@
 
 \begin{frame}
 	\frametitle{Audio alignment}
-	YouTube music video, or different file formats or recordings obtained by researchers, may have temporal differences with the original mp3 files. Alignment data is included to
+	YouTube music videos, or different file formats or recordings obtained by researchers, may have temporal differences with the original mp3 files. Alignment data is included to
 	\begin{quote}
 	... help align the audio in case researchers obtain audio data with different compression formats that might include certain small temporal offsets.
 	\end{quote}
