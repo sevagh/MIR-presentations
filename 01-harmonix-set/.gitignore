@@ -282,3 +282,4 @@ TSWLatexianTemp*
 *.pdf
 
 !*.wav
+!final-presentation.pdf

@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-pympress presentation.pdf
+pympress final-presentation.pdf
