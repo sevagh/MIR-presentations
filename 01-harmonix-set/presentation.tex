@@ -24,7 +24,7 @@
 \title{The Harmonix Set}
 \subtitle{Beats, downbeats, and structural annotations for Western pop music}
 \author{Sevag Hanssian}
-\date{January 26, 2021}
+\date{Feburary 02, 2021}
 \institute{MUMT 621, Winter 2021}
 \setbeamertemplate{navigation symbols}{}
 
@@ -42,11 +42,11 @@
 	\end{quote}
 	\begin{enumerate}
 		\item
-			MIREX task ``Audio Beat Tracking''\footcite{mirexabt}
+			\textbf{M}usic \textbf{I}nformation \textbf{R}etrieval \textbf{E}valuation e\textbf{X}change: ``Audio Beat Tracking''\footcite{mirexabt}
 		\item
-			MIREX task ``Audio Downbeat Estimation''\footcite{mirexade}
+			MIREX: ``Audio Downbeat Estimation''\footcite{mirexade}
 		\item
-			MIREX task ``Structural Segmentation''\footcite{mirexss}
+			MIREX: ``Structural Segmentation''\footcite{mirexss}
 	\end{enumerate}
 \end{frame}
 
@@ -66,11 +66,11 @@
 	Summary of MIREX beat tracking datasets\footfullcite{beatmeta}
 	\begin{enumerate}
 		\item[2006]
-			First appearance of challenge; \textit{the MCK dataset contains 160 30-second audio excerpts created by the MIREX team in 2006. Characterized by stable tempo, wide variety of instrumentations and musical styles. 20\% of the files have non-binary meters.}
+			First appearance of challenge; \textit{the MCK (McKinney) dataset contains 160 30-second audio excerpts created by the MIREX team in 2006. Characterized by stable tempo, wide variety of instrumentations and musical styles. 20\% of the files have non-binary meters.}
 		\item[2009]
-			Second dataset, Chopin Mazurkas; \textit{the MAZ dataset contains piano recordings of 322 Chopin Mazurkas, which include tempo changes.}
+			Second dataset, Chopin Mazurkas; \textit{the MAZ (mazurka) dataset contains piano recordings of 322 Chopin Mazurkas, which include tempo changes.}
 		\item[2012]
-			Third dataset; \textit{consists of 217 excerpts around 40s each, majority is difficult to track (e.g. changes in meter and tempo, bad sound quality, expressive timing). It includes romantic music, film soundtracks, blues, chanson, and solo guitar}
+			Third dataset; \textit{the SMC (Sound and Music Computing, University of Porto) dataset consists of 217 excerpts around 40s each, majority is difficult to track (e.g. changes in meter and tempo, bad sound quality, expressive timing). It includes romantic music, film soundtracks, blues, chanson, and solo guitar}
 	\end{enumerate}
 \end{frame}
 
@@ -109,7 +109,7 @@
 
 \begin{frame}
 	\frametitle{MIREX structural segmentation datasets}
-	MIREX initial dataset included \textbf{The Beatles} and a subset of \textbf{RWC} \footcite{rwc}\\
+	MIREX initial dataset included \textbf{The Beatles} and a subset of \textbf{RWC} (Real World Computing) \footcite{rwc}\\
 	Traits of structural segmentation:
 	\begin{enumerate}
 		\item
@@ -117,7 +117,7 @@
 		\item
 			Subjective -- different listeners can perceive different segments
 	\end{enumerate}
-	Solutions: SALAMI\footcite{salami}, SPAM\footcite{spam} include multiple annotations per track by different experts
+	Solutions: SALAMI\footcite{salami} (Structural Analysis of Large Amounts of Music Information), SPAM\footcite{spam} (Structural Poly Annotations of Music) include multiple annotations per track by different experts
 \end{frame}
 
 \note{
@@ -149,9 +149,9 @@
 	HarmonixSet:
 	\begin{itemize}
 		\item
-			Songs were annotated by trained professional musicians who regularly work in music production environments (using DAW + MIDI)
+			Songs were annotated by trained professional musicians who regularly work in music production environments
 		\item
-			Mix of genres were chosen to be typical of ones used in the rhythm-action games, tendency to pop/EDM for dancing
+			Mix of genres were chosen to be typical of ones used in the rhythm-action games, tendency to pop/electronic music for dancing
 		\item
 			Tend to have a very stable tempo and a 4/4 time signature, however some atypical songs (classic rock, country, metal) were included with less stable tempo and which may deviate from a strict 4/4 meter
 	\end{itemize}
@@ -324,7 +324,7 @@
 		\item
 			YouTube URLs, including alignment information with the original mp3 files used in the paper
 	\end{enumerate}
-	Audio/DSP features:
+	Audio features:
 	\begin{enumerate}
 		\item
 			mel spectrograms for the original mp3 files
