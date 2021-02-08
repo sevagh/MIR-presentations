@@ -44,7 +44,7 @@
 		\item
 			Codecs: FLAC, Vorbis, Opus, Speex, Daala, Theora
 		\item
-			Misc: RNNoise
+			Misc: RNNoise (\textbf{R}ecurrent \textbf{N}eural \textbf{N}[etwork])
 	\end{enumerate}
 	\vspace{1em}
 	\begin{quote}
@@ -88,7 +88,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{MP3 saga -- outcomes}
+	\frametitle{MP3 in 1998}
 	Fraunhofer/Thompson (two industrial giants holding MP3-related patents) started demanding royalties in 1998\footfullcite{computall}:
 	\begin{quote}
 		Since 1997, we have been working with the MP3 source code released by the ISO. [...] Then we got an e-mail [...] ``As you may know, both the Fraunhofer Institute and THOMSON have done important work to develop MPEG Layer-3 audio compression (before and after it became part of the MPEG standards). This work has resulted in many inventions and several patents, covering the MPEG Layer-3 standard. Our files do not show that you have a valid license agreement with us. This means that the products infringe the patent rights of Fraunhofer and THOMSON.
@@ -102,10 +102,12 @@
 			story of computall
 		\item
 			two forms of evil here
-		\item
-			corporate giants who pretend to develop open standards, then apply a royalty
-		\item
-			music publishers who are terrified of open standards
+			\begin{itemize}
+				\item
+					corporate giants who pretend to develop open standards, then apply a royalty
+				\item
+					music publishers who are terrified of open standards
+			\end{itemize}
 		\item
 			birth of vorbis right here
 	\end{itemize}
@@ -117,7 +119,7 @@
 		\item
 			A \textit{container} is associated to the file extension -- it describes which codecs are used for its video/audio contents, followed by the actual encoded video/audio data, and extra data such as subtitles
 		\item
-			A \textit{codec} defines how to \textit{encode} raw audio/video into a chunk of data to put in a container (i.e. file), and how to \textit{decode} data from the container back to a form suitable for playback\footfullcite{pitivi}
+			A \textit{codec} defines how to \textit{encode} raw audio/video into data to put in a container (i.e. file), and how to \textit{decode} data from the container back to a form suitable for playback\footfullcite{pitivi}
 	\end{enumerate}
 	\begin{table}[ht]
 	\centering
@@ -182,10 +184,42 @@
 
 \begin{frame}
 	\frametitle{Speech and music}
-	why different codecs? general properties of sound
-	narrowband
-	wideband
+	\begin{table}[ht]
+	\centering
+	\begin{tabular}{lll c c c}
+		\hline\hline
+		Sampling rate (Hz) & Max frequency (Hz) & Name \\ [0.5ex]
+		\hline\hline
+		8000 & 4000 & Narrowband \\ [0.5ex]
+		16000 & 8000 & Wideband \\ [0.5ex]
+		\hline
+		44100 & 22050 & CD \\ [0.5ex]
+		48000 & 24000 & Fullband (DVD) \\ [0.5ex]
+		\hline
+	\end{tabular}
+	\end{table}
+	80\% of perceptually important spectrum in \textit{voiced} speech is <4kHz, however speech up to 8kHz is preferred in subjective tests (due to \textit{unvoiced} speech)\footfullcite{speech}. Humans can hear from 20Hz-20kHz, and music requires a larger frequency range than speech\footfullcite{moore}.
 \end{frame}
+
+\note{
+	\begin{itemize}
+		\item
+			Refresher on the Nyquist frequency: Audio sampled at X kHz can only contain frequencies up to $\frac{X}{2}$ kHz
+
+		\item
+			Omitted 12000, 6000 which is mediumband and 24000/12000 which is superwideband
+		\item
+			32000, 16000, nb cassette's are analog but they can't contain more than 18000hz
+		\item
+			Voiced signals are produced when the vocal cords vibrate during the pronounciation of a phoneme
+		\item
+			Unvoiced signals, by contrast, do not entail the use of the vocal cords
+		\item
+			f versus v, s versus z
+		\item
+			There is 96000, ultrasonic - supporting frequencies up to 48000 hz. not useful for humans
+	\end{itemize}
+}
 
 \begin{frame}
 	\frametitle{Lossy compression and psychoacoustics}
@@ -194,8 +228,9 @@
 	Lossy = sacrifice data for space savings\\\ \\
 	A question of fidelity: can we perceive the lost data? In the case of audio encoding, we need to consider psychoacoustics and perception.
 	\begin{quote}
-		The basis of lossy psychoacoustical compression methods is the omission of information from the audio signal so that it does not result in perceived difference. That is, the details that are omitted would be inaudible anyway. In order to determine which components are unperceivable to the human auditory system the psychoacoustical analysis of the signal is needed.\footfullcite{lossypsycho}
+		The basis of lossy psychoacoustical compression methods is the omission of information from the audio signal so that it does not result in perceived difference.\footfullcite{lossypsycho}
 	\end{quote}
+	\href{https://wiki.xiph.org/Opus_Recommended_Settings}{https://wiki.xiph.org/Opus\_Recommended\_Settings} says to prefer (lossless) FLAC for archival to avoid generation loss\footfullcite{generationloss}
 \end{frame}
 
 \begin{frame}
@@ -228,7 +263,7 @@
 }
 
 \begin{frame}
-	\frametitle{Conclusion}
+	\frametitle{Sound samples and conclusion}
 	sound clips here
 \end{frame}
 
