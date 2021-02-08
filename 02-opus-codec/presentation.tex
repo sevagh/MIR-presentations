@@ -37,12 +37,12 @@
 \begin{frame}
 	\frametitle{Xiph.org}
 	\begin{quote}
-		Xiph.Org is a collection of open source, multimedia-related projects.
+		Xiph.org is a collection of open source, multimedia-related projects.\footfullcite{xiphwebsite}
 	\end{quote}
 	\begin{enumerate}
 			\vspace{-0.5em}
 		\item
-			FLAC, Vorbis, Opus, Speex, \textit{Daala, Theora}
+			Codecs: FLAC, Vorbis, Opus, Speex, Daala, Theora
 		\item
 			Misc: RNNoise
 	\end{enumerate}
@@ -55,7 +55,7 @@
 		\item
 			Closed software and protocols are not evil or worse than open source, but by definition only exist serve the bottom line of a corporation
 		\item
-			 The Internet is built on open development, free exchange of ideas and intellectual cooperation
+			 The Internet is built on open development, free exchange of ideas, and intellectual cooperation
 	\end{enumerate}
 \end{frame}
 
@@ -73,33 +73,78 @@
 }
 
 \begin{frame}
-	\frametitle{MP3 and the music industry}
-	summarize xiph story
-	"Why does multimedia specifically need open source?"
-	https://xiph.org/about/
+	\frametitle{Why multimedia needs open standards}
+	\begin{enumerate}
+		\item
+			MPEG -- \textbf{M}oving \textbf{P}ictures \textbf{E}xpert \textbf{G}roup -- ``is the name of a family of standards used for coding audio-visual information (e.g., movies, video, music) in a digital compressed format.\footfullcite{mpegwebsite}''
+		\item
+			``Working group of ISO/IEC (\textbf{I}nternational \textbf{O}rganization for \textbf{S}tandardization, \textbf{I}nternational \textbf{E}lectrotechnical \textbf{C}ommission) in charge of the development of international standards for compression, decompression, processing, and coded representation of moving pictures, audio and their combination.''
+		\item
+			RIAA -- \textbf{R}ecording \textbf{I}ndustry \textbf{A}ssociation of \textbf{A}merica -- \footfullcite{riaaweb}
+			\begin{quote}
+				We work to protect artists' creative freedom and promote the unique work that labels do to support them. [...] We work to protect artists and all music creators from the damaging impact of music theft. 
+			\end{quote}
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\frametitle{MP3 saga -- outcomes}
+	Fraunhofer/Thompson (two industrial giants holding MP3-related patents) started demanding royalties in 1998\footfullcite{computall}:
+	\begin{quote}
+		Since 1997, we have been working with the MP3 source code released by the ISO. [...] Then we got an e-mail [...] ``As you may know, both the Fraunhofer Institute and THOMSON have done important work to develop MPEG Layer-3 audio compression (before and after it became part of the MPEG standards). This work has resulted in many inventions and several patents, covering the MPEG Layer-3 standard. Our files do not show that you have a valid license agreement with us. This means that the products infringe the patent rights of Fraunhofer and THOMSON.
+	\end{quote}
+	RIAA sued an MP3 player manufacturer, Diamond, in the late 90s\footfullcite{riaavdiamond}
 \end{frame}
 
 \note{
 	\begin{itemize}
 		\item
-			insert notes here
+			story of computall
+		\item
+			two forms of evil here
+		\item
+			corporate giants who pretend to develop open standards, then apply a royalty
+		\item
+			music publishers who are terrified of open standards
+		\item
+			birth of vorbis right here
 	\end{itemize}
 }
 
 \begin{frame}
-	\frametitle{Ogg/Vorbis, containers and codecs}
-	Matroska, webm, mkv
-	When an Opus audio track is stored in an Ogg container, the file name suffix is usually '.opus' (but when a Vorbis audio track is stored in an Ogg file, the suffix is usually '.ogg')
+	\frametitle{Containers and codecs}
+	\begin{enumerate}
+		\item
+			A \textit{container} is associated to the file extension -- it describes which codecs are used for its video/audio contents, followed by the actual encoded video/audio data, and extra data such as subtitles
+		\item
+			A \textit{codec} defines how to \textit{encode} raw audio/video into a chunk of data to put in a container (i.e. file), and how to \textit{decode} data from the container back to a form suitable for playback\footfullcite{pitivi}
+	\end{enumerate}
+	\begin{table}[ht]
+	\centering
+	\begin{tabular}{llll c c c c}
+		\hline\hline
+		File extension & Audio codec & Video codec & Container \\ [0.5ex]
+		\hline\hline
+		.webm & Vorbis or Opus & VP8 or VP9 & Matroska \\ [0.5ex]
+		.mkv & Any & Any & Matroska \\ [0.5ex]
+		.ogg & Vorbis & n/a & Ogg \\ [0.5ex]
+		.opus & Opus & n/a & Ogg \\ [0.5ex]
+		.mp4 & AAC & MPEG-4 & MP4 \\ [0.5ex]
+		\hline
+	\end{tabular}
+	\end{table}
 \end{frame}
 
 \begin{frame}
 	\frametitle{The Opus Codec}
-	Audio codec designed for the Internet
+	Audio codec designed for the Internet\footfullcite{opuspaper}
 	\begin{itemize}
 		\item
 			Open-source, royalty-free
 		\item
 			Lossy
+		\item
+			Can trade off quality to reduce latency
 		\item
 			Derives from:
 			\begin{itemize}
@@ -109,9 +154,8 @@
 					SILK, Skype speech codec
 			\end{itemize}
 		\item
-			Replaces Vorbis (music codec) and Speex (speech codec) in a single codec
+			Replaces Vorbis (music) and Speex (speech) in a single codec
 	\end{itemize}
-	\vspace{1em}
 	Opus can operate in three modes:
 	\begin{enumerate}
 		\item
@@ -128,7 +172,11 @@
 	\item
 		SILK is not an acronym
 	\item
-		CELT used to be a standalone algorith, now its the music part of opus
+		CELT used to be a standalone algorithm, derived from Vorbis, now its the music part of opus
+	\item
+		It can change modes within a stream -- making it good for some degradation that occurs as the internet gets choppy
+	\item
+		8khz? segue into speech v music
 \end{itemize}
 }
 
@@ -140,11 +188,14 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Lossy and lossless codecs}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Psychoacoustics}
+	\frametitle{Lossy compression and psychoacoustics}
+	\textit{Lossy} versus \textit{lossless} encoding is the primary issue in data compression\footfullcite{skiena}
+	Lossless = original data is available -- no fidelity problems.\\
+	Lossy = sacrifice data for space savings\\\ \\
+	A question of fidelity: can we perceive the lost data? In the case of audio encoding, we need to consider psychoacoustics and perception.
+	\begin{quote}
+		The basis of lossy psychoacoustical compression methods is the omission of information from the audio signal so that it does not result in perceived difference. That is, the details that are omitted would be inaudible anyway. In order to determine which components are unperceivable to the human auditory system the psychoacoustical analysis of the signal is needed.\footfullcite{lossypsycho}
+	\end{quote}
 \end{frame}
 
 \begin{frame}
@@ -152,6 +203,18 @@
 	rfcs and timeline - https://jmvalin.ca/opus/opus-1.3/
 \end{frame}
 
+\begin{frame}
+	\frametitle{Opus implementation -- music}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Opus implementation -- speech}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Auto-detection of speech and music}
+	tiny neural network wow
+\end{frame}
 
 \begin{frame}
 	\frametitle{Ambisonics, spatial features}
@@ -163,5 +226,10 @@
 			jake mentioned
 	\end{itemize}
 }
+
+\begin{frame}
+	\frametitle{Conclusion}
+	sound clips here
+\end{frame}
 
 \end{document}
