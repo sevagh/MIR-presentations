@@ -1,0 +1,167 @@
+\documentclass{beamer}
+\usetheme{Boadilla}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{fancyvrb}
+\usepackage{multicol}
+\usepackage{subfig}
+\usepackage[
+    backend=biber, 
+    natbib=true,
+    style=numeric,
+    sorting=none,
+    style=verbose-ibid,
+]{biblatex}
+\addbibresource{citations.bib}
+\usepackage{pgfpages}
+\usepackage{xcolor}
+\definecolor{ao(english)}{rgb}{0.0, 0.5, 0.0}
+\definecolor{burgundy}{rgb}{0.5, 0.0, 0.13}
+%\setbeameroption{show notes}
+\setbeameroption{show notes on second screen=right}
+%\setbeameroption{hide notes}
+
+\title{The Opus Codec}
+\subtitle{High-quality, low-delay music codec}
+\author{Sevag Hanssian}
+\date{Feburary 09, 2021}
+\institute{MUMT 621, Winter 2021}
+\setbeamertemplate{navigation symbols}{}
+
+\begin{document}
+
+\begin{frame}
+\maketitle
+\end{frame}
+
+\begin{frame}
+	\frametitle{Xiph.org}
+	\begin{quote}
+		Xiph.Org is a collection of open source, multimedia-related projects.
+	\end{quote}
+	\begin{enumerate}
+			\vspace{-0.5em}
+		\item
+			FLAC, Vorbis, Opus, Speex, \textit{Daala, Theora}
+		\item
+			Misc: RNNoise
+	\end{enumerate}
+	\vspace{1em}
+	\begin{quote}
+		The most aggressive effort works to put the foundation standards of Internet audio and video into the public domain, where all Internet standards belong.
+	\end{quote}
+	\begin{enumerate}
+			\vspace{-0.5em}
+		\item
+			Closed software and protocols are not evil or worse than open source, but by definition only exist serve the bottom line of a corporation
+		\item
+			 The Internet is built on open development, free exchange of ideas and intellectual cooperation
+	\end{enumerate}
+\end{frame}
+
+\note{
+	\begin{itemize}
+		\item
+			I.e. they are not in the public's best interest
+		\item
+			Google AMP, facebook, twitter
+		\item
+			Google AMP - mention technical difficulty
+		\item
+			This is really becoming a problem today
+	\end{itemize}
+}
+
+\begin{frame}
+	\frametitle{MP3 and the music industry}
+	summarize xiph story
+	"Why does multimedia specifically need open source?"
+	https://xiph.org/about/
+\end{frame}
+
+\note{
+	\begin{itemize}
+		\item
+			insert notes here
+	\end{itemize}
+}
+
+\begin{frame}
+	\frametitle{Ogg/Vorbis, containers and codecs}
+	Matroska, webm, mkv
+	When an Opus audio track is stored in an Ogg container, the file name suffix is usually '.opus' (but when a Vorbis audio track is stored in an Ogg file, the suffix is usually '.ogg')
+\end{frame}
+
+\begin{frame}
+	\frametitle{The Opus Codec}
+	Audio codec designed for the Internet
+	\begin{itemize}
+		\item
+			Open-source, royalty-free
+		\item
+			Lossy
+		\item
+			Derives from:
+			\begin{itemize}
+				\item
+					CELT (\textbf{C}onstrained-\textbf{Energy} and \textbf{L}apped \textbf{T}ransform)
+				\item
+					SILK, Skype speech codec
+			\end{itemize}
+		\item
+			Replaces Vorbis (music codec) and Speex (speech codec) in a single codec
+	\end{itemize}
+	\vspace{1em}
+	Opus can operate in three modes:
+	\begin{enumerate}
+		\item
+			SILK mode for speech -- low bitrate narrowband speech
+		\item
+			CELT mode for music -- high bitrate, high quality music
+		\item
+			Hybrid -- SILK <8kHz, CELT >8kHz
+	\end{enumerate}
+\end{frame}
+
+\note{
+\begin{itemize}
+	\item
+		SILK is not an acronym
+	\item
+		CELT used to be a standalone algorith, now its the music part of opus
+\end{itemize}
+}
+
+\begin{frame}
+	\frametitle{Speech and music}
+	why different codecs? general properties of sound
+	narrowband
+	wideband
+\end{frame}
+
+\begin{frame}
+	\frametitle{Lossy and lossless codecs}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Psychoacoustics}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Opus RFCs and timeline}
+	rfcs and timeline - https://jmvalin.ca/opus/opus-1.3/
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Ambisonics, spatial features}
+\end{frame}
+
+\note{
+	\begin{itemize}
+		\item
+			jake mentioned
+	\end{itemize}
+}
+
+\end{document}
