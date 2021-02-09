@@ -4,6 +4,10 @@
 \usepackage{graphicx}
 \usepackage{fancyvrb}
 \usepackage{multicol}
+\usepackage{adjustbox}
+\usepackage{tikz}
+\usetikzlibrary{shapes,positioning}
+\newcommand{\foo}{\hspace{-2.3pt}$\bullet$ \hspace{5pt}}
 \usepackage{subfig}
 \usepackage[
     backend=biber, 
@@ -224,35 +228,88 @@
 \begin{frame}
 	\frametitle{Lossy compression and psychoacoustics}
 	\textit{Lossy} versus \textit{lossless} encoding is the primary issue in data compression\footfullcite{skiena}
-	Lossless = original data is available -- no fidelity problems.\\
-	Lossy = sacrifice data for space savings\\\ \\
+	Lossy compression sacrifices data for space savings\\\ \\
 	A question of fidelity: can we perceive the lost data? In the case of audio encoding, we need to consider psychoacoustics and perception.
 	\begin{quote}
 		The basis of lossy psychoacoustical compression methods is the omission of information from the audio signal so that it does not result in perceived difference.\footfullcite{lossypsycho}
 	\end{quote}
-	\href{https://wiki.xiph.org/Opus_Recommended_Settings}{https://wiki.xiph.org/Opus\_Recommended\_Settings} says to prefer (lossless) FLAC for archival to avoid generation loss\footfullcite{generationloss}
+	\href{https://wiki.xiph.org/Opus_Recommended_Settings}{https://wiki.xiph.org/Opus\_Recommended\_Settings} says to prefer FLAC (lossless) for archival to avoid generation loss\footfullcite{generationloss}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Opus RFCs and timeline}
-	rfcs and timeline - https://jmvalin.ca/opus/opus-1.3/
+	\adjustbox{valign=c}{{\usebeamerfont{frametitle}\usebeamercolor[fg]{frametitle}Opus timeline}}\hfill
+	\adjustbox{valign=c}{
+	\newcounter{year}
+	\begin{tikzpicture}[yscale=0.5,%
+		   year/.style={draw=red,text=blue,fill=yellow!20,shape=ellipse,inner sep=2pt},
+		   description/.style={rectangle,align=left,text width=60mm,anchor=west},
+		   timeline/.style={->,thick,red!50}]
+
+	    \foreach \year/\desc [count=\y] in {%
+	       1993/Xiph starts on music codec Vorbis,%
+	       1998/Vorbis development accelerated due to Fraunhofer Society MP3 royalties,%
+	       2003/Xiph starts on speech codec Speex,%
+	       2007/Xiph starts CELT starts as successor to Vorbis,%
+	       2009/Skype opens SILK protocol,%
+	       2010/Beginnings of Opus with hybrid CELT-SILK format,%
+	       2012/Xiph gets Opus standardized in IETF in RFC 6716,%
+	       2017/Opus updated in RFC 8251%
+	       } { \ifnum\y=1 \node[description](\y){\desc};
+		   \else\node[description,below=1ex of \z](\y){\desc};
+		   \fi
+		   \node[year](y-\y) [left=of \y] {\year};
+		   \ifnum\y>1\draw[timeline] (y-\z)-- (y-\y);\fi
+		   \global\let\z=\y% for drawing from last node
+	       }
+
+	\end{tikzpicture}
+	}
+\end{frame}
+
+\note{
+\begin{itemize}
+	\item
+		skype works with xiph and others to get something SILK-like in IETF - ultimately opus is the one who wins in IETF
+	\item
+		vorbis officially deprecated for opus
+	\item
+		speex is more softly discouraged. but not as strongly
+\end{itemize}
+}
+
+\begin{frame}
+	\frametitle{Opus details -- speech}
+	SILK codec implementation:\footfullcite{opuspapervoice}:
+	\begin{itemize}
+		\item
+			Frequencies under 8kHz use SILK in Opus:
+			\begin{quote}
+			for speech, linear prediction techniques, such as Code-Excited Linear Prediction (CELP), code low frequencies more efficiently than transform (e.g., MDCT) domain techniques
+			\end{quote}
+		\item
+			Based on LPC (\textbf{L}inear \textbf{P}redictive \textbf{C}oding). Larynx emits simple signal (white noise or impulse train) through the articulatory system (throat, etc.) with coefficients. Sender sends articulatory coefficients, receiver recreates original sound by driving larynx signal through it\footfullcite{larynx}
+		\item
+			Computes LPC coefficients for \textit{voiced} and \textit{unvoiced} speech differently, using results of pitch analysis
+	\end{itemize}
+\end{frame}
+
+\note{
+	\begin{itemize}
+		\item
+			LPC is hugely popular in speech
+		\item
+			To make a musical analogy, it's like listening to a piano performance, transcribing it, sending over the score, and getting someone to play it on the other end... The result on the other end will be close to the original performance, but only a representation has been sent over.
+	\end{itemize}
+}
+
+\begin{frame}
+	\frametitle{Opus details -- music}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Opus implementation -- music}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Opus implementation -- speech}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Auto-detection of speech and music}
-	tiny neural network wow
-\end{frame}
-
-\begin{frame}
-	\frametitle{Ambisonics, spatial features}
+	\frametitle{Cool extras}
+	Auto-detection of speech and music -- tiny neural network wow
+	Ambisonics, spatial features
 \end{frame}
 
 \note{
