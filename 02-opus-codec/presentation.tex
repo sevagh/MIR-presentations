@@ -252,8 +252,8 @@
 	       2007/Xiph starts CELT starts as successor to Vorbis,%
 	       2009/Skype opens SILK protocol,%
 	       2010/Beginnings of Opus with hybrid CELT-SILK format,%
-	       2012/Xiph gets Opus standardized in IETF in RFC 6716,%
-	       2017/Opus updated in RFC 8251%
+		2012/Xiph gets Opus standardized in IETF \href{https://tools.ietf.org/html/rfc6716}{https://tools.ietf.org/html/rfc6716},%
+		2017/Opus updated \href{https://tools.ietf.org/html/rfc8251}{https://tools.ietf.org/html/rfc8251}%
 	       } { \ifnum\y=1 \node[description](\y){\desc};
 		   \else\node[description,below=1ex of \z](\y){\desc};
 		   \fi
@@ -279,13 +279,10 @@
 
 \begin{frame}
 	\frametitle{Opus details -- speech}
-	SILK codec implementation:\footfullcite{opuspapervoice}:
+	The SILK half of Opus:\footfullcite{opuspapervoice}:
 	\begin{itemize}
 		\item
-			Frequencies under 8kHz use SILK in Opus:
-			\begin{quote}
-			for speech, linear prediction techniques, such as Code-Excited Linear Prediction (CELP), code low frequencies more efficiently than transform (e.g., MDCT) domain techniques
-			\end{quote}
+			\textit{for speech, linear prediction techniques, such as Code-Excited Linear Prediction (CELP), code low frequencies more efficiently than transform (e.g., MDCT) domain techniques}
 		\item
 			Based on LPC (\textbf{L}inear \textbf{P}redictive \textbf{C}oding). Larynx emits simple signal (white noise or impulse train) through the articulatory system (throat, etc.) with coefficients. Sender sends articulatory coefficients, receiver recreates original sound by driving larynx signal through it\footfullcite{larynx}
 		\item
@@ -304,24 +301,57 @@
 
 \begin{frame}
 	\frametitle{Opus details -- music}
+	The CELT half of Opus:\footfullcite{opuspaper}:
+	\begin{itemize}
+		\item
+			Based on MDCT (\textbf{M}odified \textbf{D}iscrete \textbf{C}osine \textbf{T}transform). The DFT (\textbf{D}iscrete \textbf{F}ourier \textbf{T}ransform) decomposes a real acoustic signal into a sum of complex exponentials. The DCT uses only real cosines, and spectral energy is concentrated in fewer coefficients than the DFT\footfullcite{dct}.
+		\item
+			In addition to MDCT coefficients, CELT includes information about the spectral envelope of the signal with energy in Bark-like bands:
+	\end{itemize}
+	\begin{figure}
+	\includegraphics[width=8cm]{./bark.png}
+	\end{figure}
+\end{frame}
+
+\note{
+	\begin{itemize}
+		\item
+			like lpc is dominant for speech, mdct is dominant for audio codecs
+		\item
+			lots of DCTs, details were too much to get into
+		\item
+			fewer coefficients means that the DCT is very used in compression
+	\end{itemize}
+}
+
+\begin{frame}
+	\frametitle{Auto-detect music and speech}
+	Opus can automatically detect whether its input is speech or music, and choose the optimal encoding mode accordingly. GRU (\textbf{G}ated \textbf{R}ecurrent \textbf{U}nit) with just 4986 weights (that fit in less than 5 kB) and takes about 0.02\% CPU to run in real-time\footfullcite{valinopus}
+	\begin{figure}
+	\includegraphics[width=9cm]{./opus_gru.png}
+	\end{figure}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Cool extras}
-	Auto-detection of speech and music -- tiny neural network wow
-	Ambisonics, spatial features
+	\frametitle{Ambisonics, spatial audio}
+	\begin{quote}
+		Opus 1.3 adds support for immersive audio using ambisonics that surrounds the listener in a full-sphere sound field. This is done through two new (soon to be RFC 8486) Ogg mapping families for Opus ambisonics. Unlike other multi-channel surround formats, ambisonics is independent of speaker layout. This allows for flexible speaker configurations and scalable audio to efficiently transmit 3D audio soundtracks.\footfullcite{valinopus}
+	\end{quote}
+	\href{https://tools.ietf.org/html/rfc8486}{https://tools.ietf.org/html/rfc8486}
 \end{frame}
 
 \note{
 	\begin{itemize}
 		\item
 			jake mentioned
+		\item
+			note that the change is to Ogg, the container, to include multiple ambisonic channels of Opus-encoded audio
 	\end{itemize}
 }
 
 \begin{frame}
-	\frametitle{Sound samples and conclusion}
-	sound clips here
+	\frametitle{Sound samples}
+	\href{https://opus-codec.org/examples/}{https://opus-codec.org/examples/}
 \end{frame}
 
 \end{document}
