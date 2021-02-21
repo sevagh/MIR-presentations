@@ -1,0 +1,62 @@
+\documentclass[letter,12pt]{report}
+\setlength{\parindent}{0pt}
+\usepackage[left=2cm, right=2cm, top=2cm, bottom=2cm]{geometry}
+\usepackage[shortlabels]{enumitem}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage{minted}
+\usepackage{subfig}
+\usepackage{titling}
+\usepackage{caption}
+\setlength{\droptitle}{1cm}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+\usepackage{setspace}
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{0.75}
+\usepackage[
+    %backend=biber, 
+    natbib=true,
+    style=numeric,
+    sorting=none
+]{biblatex}
+\addbibresource{citations.bib}
+\usepackage{titlesec}
+ 
+\titleformat{\chapter}[display]
+  {\normalfont\bfseries}{}{0pt}{\Huge}
+
+\begin{document}
+
+\Large{\textbf{Dynamic Programming for Beat Tracking}}\\
+\large{MUMT 621 Presentation 3. February 23, 2021. Sevag Hanssian, 260398537}\\
+%\vspace{0.15em}
+
+\Large{\textbf{Summary}}
+%\vspace{0.15em}
+
+2-3 pages summary
+
+\vfill
+\clearpage
+
+\Large{\textbf{Annotated bibliography}}\\
+
+\begin{itemize}
+	\vspace{-1em}
+	\item
+		\fullcite{opuspaper}\\
+		This is the published paper for the music (CELT) details of the Opus codec (and some minor information on the speech/SILK mode).
+\end{itemize}
+
+\end{document}
