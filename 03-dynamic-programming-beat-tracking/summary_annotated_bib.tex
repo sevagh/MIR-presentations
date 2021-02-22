@@ -24,13 +24,7 @@
 \renewcommand{\topfraction}{0.85}
 \renewcommand{\textfraction}{0.1}
 \renewcommand{\floatpagefraction}{0.75}
-\usepackage[
-    backend=biber, 
-    natbib=true,
-    style=numeric,
-    sorting=none,
-    style=chicago-authordate,
-]{biblatex}
+\usepackage[backend=biber,authordate]{biblatex-chicago}
 \addbibresource{citations.bib}
 \usepackage{titlesec}
  
@@ -56,8 +50,8 @@
 \begin{itemize}
 	\vspace{-1em}
 	\item
-		\fullcite{opuspaper}\\
-		This is the published paper for the music (CELT) details of the Opus codec (and some minor information on the speech/SILK mode).
+		\fullcite{clrs}\\
+		This is a legendary CS textbook
 \end{itemize}
 
 \end{document}
