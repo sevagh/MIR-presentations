@@ -21,7 +21,7 @@
 
 \title{Dynamic Programming for Beat Tracking}
 \author{Sevag Hanssian}
-\date{Feburary 16, 2021}
+\date{Feburary 23, 2021}
 \institute{MUMT 621, Winter 2021}
 \setbeamertemplate{navigation symbols}{}
 
@@ -168,13 +168,12 @@
 			Optimize the score $C(t_{i})$ of a beat at time $t_{i}$ based on two terms:
 			\begin{enumerate}
 				\item
-					$O(t_{i})$ -- the onset strength envelope should be strong at tentative beat location $t_{i}$
+					$O(t_{i})$ -- onset strength should be strong at tentative beat location $t_{i}$
 				\item
 					$F(t_{i}-t_{i-1}, \tau_{p})$ or $F(\Delta t, \tau_{p})$ -- there should be consistency between the inter-beat interval $\Delta t$ and the beat spacing $\tau_{p}$ from target tempo
 			\end{enumerate}
-			$\alpha$ is the weighting term to balance the importance of the 2 terms
+			$\alpha$ is the weighting term to balance the importance of the 2 terms. This results in an exponential search over all time $t_{i}$\footfullcite{ellis2}
 	\end{itemize}
-	Exponential search over all time $t_{i}$\footfullcite{ellis2}
 \end{frame}
 
 \note{
@@ -190,7 +189,7 @@
 	\frametitle{Onset strength envelope and tempo estimation}
 	Onsets mark the start of a musical note or acoustic event\footfullcite{onsets}
 	\begin{figure}
-		\includegraphics[height=4cm]{./onset2.png}
+		\includegraphics[height=4.5cm]{./onset2.png}
 		\caption{Top: onset strength envelope. Middle: raw autocorrelation. Bottom: autocorrelation with perceptual weighting window.\footcite{ellis}}
 	\end{figure}
 \end{frame}
@@ -200,7 +199,7 @@
 		\item
 			Human tempo perception is known to have a bias towards 120 BPM. We apply a perceptual weighting window to the raw autocorrelation to downweight periodicity peaks far from this bias
 		\item
-			This graph contains all the information you need for a beat tracker! but remember the optimization goals
+			This plot contains all the information you need for a beat tracker! but remember the optimization goals
 	\end{itemize}
 }
 
@@ -212,6 +211,9 @@
 	\[ C^{*}(t) = O(t) + \text{max}_{\tau = 0...t}\{\alpha F(t-\tau, \tau_{p}) + C^{*}(\tau)\} \]
 	Record preceding beat time that gave best score:
 	\[ P^{*}(t) = \text{argmax}_{\tau = 0...t} \{\alpha F(t-\tau, \tau_{p}) + C^{*}(\tau)\} \]
+	\begin{quote}
+	The best score $C^{*}$ for time t is the local onset strength, plus the best score to the preceding beat time $\tau$ that maximizes the sum of that best score and the transition cost from that time
+	\end{quote}
 \end{frame}
 
 \begin{frame}
@@ -223,6 +225,74 @@
 		\includegraphics[width=11cm]{./ellisdp.png}
 		\caption{Beat tracking by dynamic programming\footcite{ellis2}}
 	\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Beat tracking with dynamic programming}
+	\begin{itemize}
+		\item
+			To find the set of beat times that optimize the objective function for a given onset envelope, start by calculating $C^{*}$ and $P^{*}$ for every time starting from zero
+		\item
+			Look for the largest value of $C^{*}$ (which will typically be within $\tau_{p}$ of the end of the time range)
+		\item
+			This forms the final beat instant $t_{N}$ where $N$, the total number of beats, is still unknown
+		\item
+			Then ``backtrace'' via $P^{*}$, finding the preceding beat time $t_{N-1} = P^{*}(t_{N})$,  and  progressively working backwards until we reach the beginning of the signal
+		\item
+			Gives the entire optimal beat sequence ${t_{i}}^{*}$
+	\end{itemize}
+\end{frame}
+
+\note{
+	\begin{itemize}
+		\item
+			Thanks to dynamic programming, we have effectively searched the entire exponentially-sized set of all possible time sequences in a linear-time operation.
+		\item
+			This was possible because, if a best-scoring beat sequence includes a time $t_{i}$, the beat instants chosen after $t_{i}$ will not influence the choice (or score contribution) of beat times prior to $t_{i}$, so the entire best-scoring sequence up to time $t_{i}$ can be calculated and fixed at time $t_{i}$ without having to consider any future events
+		\item
+			By contrast, a cost function where events subsequent to $t_{i}$ could influence the cost contribution of earlier events would not be amenable to this optimization.
+	\end{itemize}
+}
+
+
+\begin{frame}
+	\frametitle{Algorithm availability and performance}
+	librosa\footfullcite{librosa}'s beat\_track algorithm\footfullcite{beattrack} is Ellis' Dynamic Programming\\
+	\begin{figure}
+		\includegraphics[width=6.5cm]{./mirex2006.png}
+		\caption{Results from MIREX 2006\footfullcite{mirexabt}}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Origins}
+	Invented by Richard Bellman\footfullcite{bellmanhistory}
+	\begin{itemize}
+		\item
+			I spent the Fall quarter (of 1950) at the RAND Corporation (R\&D group employed at the time by the Air Force). My first task was to find a name for multistage decision processes.
+		\item
+			Programming, not like coding, but like scheduling or planning
+		\item
+			Dynamic, multistage, time-varying -- and dynamic is impossible to use prejoratively
+		\item
+			Chose the name ``dynamic programming'' to shield it from the Secretary of Defense, Wilson, who was anti math research:
+			\begin{quote}
+			he actually had a pathological fear and hatred of the word, research. I’m not using the term lightly; I'm using it precisely. His face would suffuse, he would turn red, and he would get violent if people used the term, research, in his presence
+			\end{quote}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{More dynamic programming in MIR}
+	From MIR survey\footfullcite{mirsurvey}:
+	\begin{itemize}
+		\item
+			Cambouropoulos, E., Crochemore, M., Iliopoulos, C. S., Mohamed, M., and Sagot, M. (2005) A Pattern Extraction Algorithm for Abstract Melodic Representations that Allow Partial Overlapping of Intervallic Categories. In, T. Crawford, M. Sandler, editors, Proceedings of the 6th International Conference on Music Information Retrieval (ISMIR 2005), pp. 167–174
+		\item
+			Adams, N. H., Bartsch, M., Shifrin J., and Wakefield, G. (2004) Time series alignment for music information retrieval. In Proceedings of the International Conference on Music Information Retrieval, 303–310 
+		\item
+			Cambouropoulos, E. (2006) Musical Parallelism and Melodic Segmentation: A Computational Approach. Music Perception 23(3):249-269 
+	\end{itemize}
 \end{frame}
 
 \end{document}
