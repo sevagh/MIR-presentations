@@ -34,29 +34,31 @@
 \begin{document}
 
 \noindent\LARGE{\textbf{Dynamic Programming for Beat Tracking}}\\
-\large{MUMT 621 Presentation 3. February 23, 2021. Sevag Hanssian, 260398537}\\
+\Large{MUMT 621 Presentation 3. February 23, 2021. Sevag Hanssian, 260398537}\\
 %\vspace{0.15em}
 
 \noindent\Large{\textbf{Summary}}
 %\vspace{0.15em}
 
-In 1950, Richard Bellman coined the term ``dynamic programming'' to refer to a type of algorithm he designed for solving multistage decision processes (\cite{bellmanhistory}). Programming here refers to scheduling or planning, not computer programming. In the creation story, the adjective ``dynamic'' was chosen because it both describes the time-varying and multistage nature of the algorithm, and because it can't be used negatively. The goal was to give the algorithm a vague and positive name, so that the anti-research Secretary of Defense in charge of funding could find no reason to tank the project.
+In 1950, Richard Bellman coined the term ``dynamic programming'' to refer to a type of algorithm he designed for solving multistage decision processes (\cite{bellmanhistory}). Programming here refers to scheduling or planning, not computer programming. In the creation story, the adjective ``dynamic'' was chosen because it both describes the time-varying and multistage nature of the algorithm, and because it generally isn't used in a negative or prejorative sense. The goal was to give the algorithm a vague and positive name, so that the anti-research Secretary of Defense in charge of funding could find no reason to tank the project.
 
-\textcite{skiena} and \textcite{clrs} describe dynamic programming as follows. It is an algorithm to solve computer science optimization problems by finding the best solution that maximizes an objective cost function. It involves breaking the problem down into subproblems (similar to recursive algorithms) and storing the results of each subproblem for efficiency. Dynamic programming leads to a globally optimal solutions by searching the entire solution space, and the cost of repeatedly recomputing subproblems is traded off for the storage cost of computing them once and storing the solution.
+\textcite{skiena} and \textcite{clrs} describe dynamic programming as follows. It is an algorithm to solve computer science optimization problems by finding the best solution that maximizes an objective cost function. It involves breaking the problem down into subproblems and storing the results of each subproblem for efficiency. Dynamic programming leads to a globally optimal solution by searching the entire solution space, and the cost of repeatedly recomputing subproblems is traded off for the storage cost of computing them once and storing the solution. A similar type of algorithm is the divide-and-conquer recursive algorithm, which decomposes a problem into subproblems (divide), calls itself to solve the subproblems (conquer), and combines the solutions. Adding storage of the recursively-computed subproblems brings one most of the way towards a dynamic programming solution.
 
-\textcite{ellis} formulated the task of beat tracking in music information retrieval as a two-way optimization problem. His algorithm starts with computing onset strengths, $O(t)$, for every time $t$ (discrete samples) in the input signal. Onsets refer to the start of musical notes or events (\cite{onsets}). From the detected onsets, autocorrelation is used to detect a periodicity among all of the note onsets -- the dominant periodicity is chosen as the global tempo estimate for the entire song. Once both of these is known, the beat tracking problem becomes this:
+\textcite{ellis} formulated the task of beat tracking in music information retrieval as a two-way optimization problem. The algorithm starts with computing onset strengths, $O(t)$, for every time $t$ (discrete samples) in the input signal, also known as the onset strength envelope. Onsets refer to the start of musical notes or events (\cite{onsets}). Autocorrelation (a measure of signal self-similarity) is then applied on the onset strength envelope to find the dominant onset periodicity. Some further perceptual post-processing is done to take into account the natural human bias towards 120bpm. Finally, the most dominant periodicity is chosen as the global tempo estimate for the entire song. An assumption (and limitation) of the algorithm is that there is a single stable tempo throughout the song.
+
+Once the onset strength envelope and global tempo are known, the beat tracking problem becomes this:
 
 \[ C(\{t_{i}\}) = \sum_{i=1}^{N}O(t_{i}) + \alpha\sum_{i=2}^{N}F(t_{i}-t_{i-1}, \tau_{p}) \]
 
 The final beat times returned by the beat tracker are a set $\{t_{i}\}$ that maximize the above cost function. $O$, the first term, is the onset strength envelope which weighs strong onsets as more likely to be beats. The second term $F(\Delta t, \tau) = -\Big(\log\frac{\Delta t}{\tau}\Big)^{2}$ is the penalty term to ensure that the selected beat has an inter-beat interval ($\Delta t = t_{i}-t_{i-1}$) that is consistent both with the previously selected beat and that fits the global tempo $\tau_{p}$. Finally, $\alpha$ controls how much each term is weighted in the objective score.
 
-The problem as stated involves an exponential search across all possible combinations of discrete time points $\{t_{i}\} \in [0, N]$ in an audio signal of length $N$ samples (\cite{ellis2}), which is computationally very expensive. Enter dynamic programming, which allows the same problem to be restated in a recursive manner:
+The problem as stated involves an exponential search across all possible combinations of discrete time points $\{t_{i}\} \in [0, N]$ in an audio signal of length $N$ samples (\cite{ellis2}), which is computationally very expensive. Dynamic programming allows the same problem to be restated in a recursive manner:
 \[ C^{*}(t) = O(t) + \text{max}_{\tau = 0...t}\{\alpha F(t-\tau, \tau_{p}) + C^{*}(\tau)\} \]
 \[ P^{*}(t) = \text{argmax}_{\tau = 0...t} \{\alpha F(t-\tau, \tau_{p}) + C^{*}(\tau)\} \]
 
-The best score $C^{*}$ for time t is the local onset strength, plus the best score to the preceding beat time $\tau$; $P^{*}$ stores the corresponding previous beat time. This optimization is possible because future beats $\in [t, N]$ are not considered to influence the correctness of past or present beats $\in [0, t]$. To get beats for an input signal, first $C^{*}$ and $P^{*}$ are computed for every time point $t_{i} \in [0, N]$. Then, the maximum $C^{*}$ is chosen from within $\tau_{p}$ of the end of the song, and the chain of the best preceding beat is followed through $P^{*}$ to generate the final optimal sequence of beats $\{t_{i}\}$.
+The best score $C^{*}$ for time t is the local onset strength, plus the best score to the preceding beat time $\tau$, and $P^{*}$ stores the corresponding previous beat time. This optimization is possible because future beats $\in [t, N]$ are not considered to influence the correctness of past or present beats $\in [0, t]$. To get beats for an input signal, first $C^{*}$ and $P^{*}$ are computed for every time point $t_{i} \in [0, N]$. Then, the maximum $C^{*}$ is chosen from within $\tau_{p}$ of the end of the song, and the chain of the best preceding beat is followed through $P^{*}$ to generate the final optimal sequence of beats $\{t_{i}\}$.
 
-The algorithm is computationally efficient and showed reasonable scores in MIREX 2006 (\cite{mirexabt}). It is the implementation of the beat tracking algorithm available in librosa (\cite{librosa}), a popular modern Python library for music information retrieval. Beyond beat tracking, \textcite{mirsurvey} present various other uses of dynamic programming in music information retrieval, most of which involve some form of pattern induction, such as \cite{dp2} or \cite{dp3}.
+The algorithm is computationally efficient and scored reasonably well in MIREX 2006.\footnote{\href{https://www.music-ir.org/mirex/wiki/2006:Audio_Beat_Tracking}{https://www.music-ir.org/mirex/wiki/2006:Audio\_Beat\_Tracking}} It is the implementation of the beat tracking algorithm available in librosa (\cite{librosa}), a popular modern Python library for music information retrieval.
 
 \vfill
 \clearpage
@@ -66,7 +68,7 @@ The algorithm is computationally efficient and showed reasonable scores in MIREX
 \vspace{-0.5em}
 
 %\printbibheading[title={\vspace{-3.5em}References},heading=bibnumbered]
-\nocite{*}
+%\nocite{*}
 \printbibliography[heading=none]
 
 \end{document}
