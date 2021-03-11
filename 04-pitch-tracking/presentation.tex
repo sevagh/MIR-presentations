@@ -1,0 +1,131 @@
+\documentclass{beamer}
+\usetheme{Boadilla}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{fancyvrb}
+\usepackage{multicol}
+\usepackage{adjustbox}
+\usepackage{tikz}
+\usetikzlibrary{shapes,positioning}
+\newcommand{\foo}{\hspace{-2.3pt}$\bullet$ \hspace{5pt}}
+\usepackage{subfig}
+\usepackage[backend=biber,authordate]{biblatex-chicago}
+\addbibresource{citations.bib}
+\usepackage{pgfpages}
+\usepackage{xcolor}
+\definecolor{ao(english)}{rgb}{0.0, 0.5, 0.0}
+\definecolor{burgundy}{rgb}{0.5, 0.0, 0.13}
+%\setbeameroption{show notes}
+\setbeameroption{show notes on second screen=right}
+%\setbeameroption{hide notes}
+
+\title{Pitch Tracking}
+\author{Sevag Hanssian}
+\date{March 23, 2021}
+\institute{MUMT 621, Winter 2021}
+\setbeamertemplate{navigation symbols}{}
+
+\begin{document}
+
+\begin{frame}
+\maketitle
+\end{frame}
+
+\begin{frame}
+	\frametitle{Pitch as a perceptual phenomenon}
+
+Pitch is \textit{the aspect of auditory sensation whose variation is associated with musical melodies}. Pitch is the \textit{perceptual correlate of frequency}.
+
+Pitch is subjective -- pitch is
+\begin{quote}
+	the attribute of auditory sensation in terms of which sounds may be ordered on a scale extending from low to high
+\end{quote}
+
+For sinusoidal sounds, pitch and frequency are directly related. Fundamental frequency = the lowest frequency - the others are harmonics, aka overtones.
+
+CREPE says:
+Pitch is defined as a subjective quality of perceived sounds and does not precisely correspond to the physical property of the fundamental  frequency. However,  apart  from  a  few  rare  exceptions, pitch can be quantified using fundamental frequency, and thus they are often used interchangeably outside psychoacoustical studies.
+\end{frame}
+
+\note{
+	\begin{itemize}
+		\item
+			it's a bit more complicated. there's a relationship between loudness and perceived pitch
+	\end{itemize}
+}
+
+\begin{frame}
+	\frametitle{Musical importance of pitch}
+	Mammals have circuity for harmony and/or perceiving pitch, of which a natural part is the octave. Pitches separated by an octave have the same ``pitch chroma''. In music, relative pitches are more important than absolute. Melodies can be recognized when transposed. Pitch is universal, but the centrality of relative pitch indicates some innate auditory mechanism for encoding sound as pitch distances.
+\begin{enumerate}
+	\item
+		Melodies created from pitches - 5-7 pitches per octave. Why 5-7? Perhaps limitations of memory and categorization. humans are good at ``melodic contour'', i.e. recognizing a melody whether it is transposed in tempo or octave.
+	\item
+		Pitches are separated by unequal steps. Unique sets of interval relations with other notes, leading to things such as tonality. Melodies from unequal interval scales are encoded more easily.
+\end{enumerate}
+\end{frame}
+
+\note{
+	\begin{itemize}
+		\item
+			tonality = assigning different functions to different notes
+	\end{itemize}
+}
+
+\begin{frame}
+\frametitle{Models for human pitch perception}
+place vs phase locking
+
+Resolved harmonics: place  coding and pattern recognition
+
+Temporal coding/phase locking: temporal coding periodicity of unresolved harmonics
+
+Both: autocorrelation function on the periodicity of the combination resolved and resolved spikes
+
+Neural -- Must be after the ears, because two harmonics presented to different ears create the correct fundamental frequency (i.e. are both considered together for the pitch estimation). Inconclusive
+\end{frame}
+
+\note{
+	\begin{itemize}
+		\item
+			Nonresolved harmonic = unseparated frequencies
+
+		\item
+			In general pattern recognition doesn't come from rate-place or temporal encoding - it could be one or both. The \textbf{distinctive feature of pattern recognition models} is that the individual frequencies of the resolved harmonics must be extracted before the fundamental frequency can be derived. These models do not account for the fact that pitch can be recognized even with unresolved harmonics.
+		\item
+			gabor tf uncertainty principle. Our real sensitivity to <1\% differences in fundamental frequencies for resolved harmonics is better than what would be possible with firing rate/place coding, suggesting temporal coding.
+		\item
+			Pattern recognition could be pattern templates - has slots for 100Hz f0 == 200, 300, 400, etc. If you're close e.g. 99.5, 199.5, you get matched to the nearest. Complex tone will get matched to nearest set, although it may not sound strictly harmonic.
+	\end{itemize}
+}
+
+\begin{frame}
+	\frametitle{Pitch tracking algorithms}
+Autocorrelation
+\end{frame}
+
+\begin{frame}
+	\frametitle{McLeod Pitch Method}
+\end{frame}
+
+\begin{frame}
+	\frametitle{YIN}
+\end{frame}
+
+\begin{frame}
+	\frametitle{pYIN}
+\end{frame}
+
+\begin{frame}
+	\frametitle{SWIPE}
+\end{frame}
+
+\begin{frame}
+	\frametitle{CREPE}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Conclusion}
+\end{frame}
+
+\end{document}
