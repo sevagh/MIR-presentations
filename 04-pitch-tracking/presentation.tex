@@ -33,69 +33,86 @@
 
 \begin{frame}
 	\frametitle{Pitch as a perceptual phenomenon}
+	Pitch is...\footfullcite{plack}
+	\begin{itemize}
+		\item
+			the perceptual correlate of frequency or waveform repetition rate
+		\item
+			the attribute of auditory sensation in terms of which sounds may be ordered on a scale extending from low to high (\textcolor{red}{\textbf{!}})
+		\item
+			the aspect of auditory sensation whose variation is associated with musical melodies (\textcolor{green}{\textbf{!}})
+	\end{itemize}
+	For sinusoidal sounds, pitch and frequency are directly related. The fundamental frequency of a complex tone (consisting of multiple frequencies) is the lowest (or fundamental) frequency component -- higher frequencies are called harmonics or overtones.
 
-Pitch is \textit{the aspect of auditory sensation whose variation is associated with musical melodies}. Pitch is the \textit{perceptual correlate of frequency}.
-
-Pitch is subjective -- pitch is
-\begin{quote}
-	the attribute of auditory sensation in terms of which sounds may be ordered on a scale extending from low to high
-\end{quote}
-
-For sinusoidal sounds, pitch and frequency are directly related. Fundamental frequency = the lowest frequency - the others are harmonics, aka overtones.
-
-CREPE says:
-Pitch is defined as a subjective quality of perceived sounds and does not precisely correspond to the physical property of the fundamental  frequency. However,  apart  from  a  few  rare  exceptions, pitch can be quantified using fundamental frequency, and thus they are often used interchangeably outside psychoacoustical studies.
+	Apart from a few rare exceptions, pitch can be quantified using fundamental frequency (or $\mathit{f0}$), and thus they are often used interchangeably outside psychoacoustical studies.\footfullcite{crepe}
 \end{frame}
 
 \note{
 	\begin{itemize}
 		\item
-			it's a bit more complicated. there's a relationship between loudness and perceived pitch
+			it's a bit more complicated. there's also a relationship between loudness and perceived pitch
+			It requires the words ``low'' and ``high'' to be associated with pitch or frequency rather than with loudness or intensity, for example.
 	\end{itemize}
 }
 
 \begin{frame}
 	\frametitle{Musical importance of pitch}
-	Mammals have circuity for harmony and/or perceiving pitch, of which a natural part is the octave. Pitches separated by an octave have the same ``pitch chroma''. In music, relative pitches are more important than absolute. Melodies can be recognized when transposed. Pitch is universal, but the centrality of relative pitch indicates some innate auditory mechanism for encoding sound as pitch distances.
-\begin{enumerate}
-	\item
-		Melodies created from pitches - 5-7 pitches per octave. Why 5-7? Perhaps limitations of memory and categorization. humans are good at ``melodic contour'', i.e. recognizing a melody whether it is transposed in tempo or octave.
-	\item
-		Pitches are separated by unequal steps. Unique sets of interval relations with other notes, leading to things such as tonality. Melodies from unequal interval scales are encoded more easily.
-\end{enumerate}
+	\begin{quote}
+	Although rhythm is arguably just as important, if not more so, to many cultures' music, pitch has received far more attention in the literature we will review. This is likely due to its importance in Western music and the resultant theoretical ideas about how pitch functions in music.
+	\end{quote}
+	Pitch is musically important to humans:\footfullcite{musicevo}
+	\begin{itemize}
+		\item
+			Relationship between pitches (relative pitch) are more important than the absolute value. Sequence of pitch changes is the melodic contour
+		\item
+			Pitches separated by an octave have the same pitch chroma. Most (known) music depends on pitch relations defined by octaves
+		\item
+			Most (known) music in the world come from a discrete set of five to seven pitches arranged within an octave range
+		\item
+			Most musical scales in the world have pitches separated by unequal steps; allows assigning unique functions to different notes
+	\end{itemize}
 \end{frame}
 
 \note{
 	\begin{itemize}
 		\item
-			tonality = assigning different functions to different notes
+			Melodies can be recognized when transposed. Pitch is universal, but the centrality of relative pitch indicates some innate auditory mechanism for encoding sound as pitch distances. Humans are good at ``melodic contour'', i.e. recognizing a melody whether it is transposed in tempo or octave.
+		\item
+			Limitations of memory and categorization, or sensory or computational bias to have intervals that approximate simple integer ratios
+		\item
+			An example of note function is the tonic
 	\end{itemize}
 }
 
 \begin{frame}
 \frametitle{Models for human pitch perception}
-place vs phase locking
+For many years, there were two theories of pitch perception: place and temporal\footfullcite{moore}
 
-Resolved harmonics: place  coding and pattern recognition
+The place theory (place coding) applies to \textit{resolved harmonics}:
+\begin{itemize}
+	\item
+		Spectral analysis is done in the cochlea, so that the frequency components of a sound excite different parts of the basilar membrane (BM), hence neurons with different characteristic frequency (\textcolor{green}{\textbf{!}})
+	\item
+		The pattern of excitation is considered for the final pitch consideration of a stimulus (\textcolor{red}{\textbf{!}})
+\end{itemize}
 
-Temporal coding/phase locking: temporal coding periodicity of unresolved harmonics
+The temporal theory (temporal coding, phase locking) applies to \textit{unresolved harmonics}: the unresolved harmonics form a complex waveform in the BM; neurons lock to the phase of the envelope of the complex waveform.
 
-Both: autocorrelation function on the periodicity of the combination resolved and resolved spikes
-
-Neural -- Must be after the ears, because two harmonics presented to different ears create the correct fundamental frequency (i.e. are both considered together for the pitch estimation). Inconclusive
+More sophisticated models (which explain or account for human experimental data) require both place and temporal analyses.
 \end{frame}
 
 \note{
 	\begin{itemize}
 		\item
-			Nonresolved harmonic = unseparated frequencies
-
+			First part is related to the tonotopic organization of the inner ear -- well established and independently confirmed in different studies
 		\item
-			In general pattern recognition doesn't come from rate-place or temporal encoding - it could be one or both. The \textbf{distinctive feature of pattern recognition models} is that the individual frequencies of the resolved harmonics must be extracted before the fundamental frequency can be derived. These models do not account for the fact that pitch can be recognized even with unresolved harmonics.
+			e.g. 100Hz, 200Hz, 300Hz pattern. Second is still a matter of dispute
 		\item
-			gabor tf uncertainty principle. Our real sensitivity to <1\% differences in fundamental frequencies for resolved harmonics is better than what would be possible with firing rate/place coding, suggesting temporal coding.
+			place/pattern model does not account for the fact that pitch can be recognized even with unresolved harmonics. Nonresolved harmonic = unseparated frequencies
 		\item
-			Pattern recognition could be pattern templates - has slots for 100Hz f0 == 200, 300, 400, etc. If you're close e.g. 99.5, 199.5, you get matched to the nearest. Complex tone will get matched to nearest set, although it may not sound strictly harmonic.
+			gabor tf uncertainty principle. Our real sensitivity to <1\% differences in fundamental frequencies for resolved harmonics is better than what would be possible with firing rate/place coding, suggesting temporal coding
+		\item
+			Tentative neural component, processed after the ears -- two harmonics presented to different ears create the correct fundamental.
 	\end{itemize}
 }
 
@@ -114,10 +131,6 @@ Autocorrelation
 
 \begin{frame}
 	\frametitle{pYIN}
-\end{frame}
-
-\begin{frame}
-	\frametitle{SWIPE}
 \end{frame}
 
 \begin{frame}
