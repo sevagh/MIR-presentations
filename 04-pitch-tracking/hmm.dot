@@ -1,0 +1,11 @@
+strict digraph  {
+A1;
+"A#1";
+B1;
+C2;
+A1 -> B1  [label="0.3", weight="0.3"];
+"A#1" -> A1  [label="0.2", weight="0.2"];
+"A#1" -> B1  [label="0.4", weight="0.45"];
+B1 -> C2  [label="0.15", weight="0.15"];
+C2 -> B1  [label="0.15", weight="0.15"];
+}
