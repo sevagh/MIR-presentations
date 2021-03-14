@@ -281,7 +281,6 @@ TSWLatexianTemp*
 #*Notes.bib
 *.pdf
 
-!*.wav
 !final-presentation.pdf
 !submission-presentation.pdf
-!submission-summary-annotated-bib.pdf
+!submission-summary-bib.pdf
