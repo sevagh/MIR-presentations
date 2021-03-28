@@ -27,45 +27,75 @@
 \usepackage[backend=biber,authordate,annotation]{biblatex-chicago}
 \addbibresource{citations.bib}
 \usepackage{titlesec}
+
+\newenvironment{tight_enumerate}{
+\begin{enumerate}
+  \setlength{\itemsep}{0pt}
+  \setlength{\parskip}{0pt}
+}{\end{enumerate}}
+
+\newenvironment{tight_itemize}{
+\begin{itemize}
+  \setlength{\itemsep}{0pt}
+  \setlength{\parskip}{0pt}
+}{\end{itemize}}
  
 \titleformat{\chapter}[display]
   {\normalfont\bfseries}{}{0pt}{\Huge}
 
 \begin{document}
 
-\noindent\LARGE{\textbf{Pitch Tracking}}\\
-\Large{MUMT 621 Presentation 4. March 16, 2021. Sevag Hanssian, 260398537}\\
+\noindent\LARGE{\textbf{State-of-the-art Beat Tracking}}\\
+\Large{MUMT 621 Presentation 5. March 30, 2021. Sevag Hanssian, 260398537}\\
 %\vspace{0.15em}
 
 \noindent\Large{\textbf{Summary}}
-%\vspace{0.15em}
 
-Pitch is the perceptual correlate of frequency (\cite{plack}). According to Plack, the American National Standards Institute's definition of pitch as ``that attribute of auditory sensation in terms of which sounds may be ordered on a scale extending from low to high'' is too ambiguous. The terms ``high'' and ``low'' can also apply to loudness and intensity. He proposes an alternative definition, that pitch is the aspect of auditory sensation whose variation is associated with musical melodies. For a pure tone consisting of a single frequency, the pitch of the tone is directly related to its frequency. For a complex tone with multiple frequency components, the pitch is related to the fundamental, or lowest frequency. The fundamental frequency is also referred to as $\mathit{f0}$.
+\textcite{mcfee} state that onset detection is a critical first stage of most beat tracking algorithms. Works by \textcite{goto}, \textcite{ellis}, and \textcite{btrack} are some examples among many of onset-based beat tracking. \textcite{onsets} provide multiple definitions for onsets, but the simplest is that of the beginning of musical events. A typical onset-based beat tracker, as described by \textcite{mcfee}, operates as follows:
+\begin{quote}
+	\vspace{-0.25em}
+	First, the audio signal is processed by an onset strength function, which measures the likelihood that a musically salient change (e.g., note onset) has occurred at each time point. The tracking algorithm then selects the beat times from among the peaks of the onset strength profile
+\end{quote}
 
-Pitch is essential to music perception in humans (\cite{musicevo}). Relationships between pitches are more important than the absolute pitch -- humans in experiments can recognize melodies when they are transposed in tempo or octave. Pitches separated by the special octave relationship have the same pitch chroma. Most known music in the world across cultures and eras consists of melodies formed from five to seven pitches within an octave range.
+\textcite{rnnonset} used a recurrent neural network architecture to achieve state-of-the-art results in onset detection. This was first adapted by \textcite{bock1} to create the ``RNNBeatProcessor,'' so named in the open-source Python madmom library (\cite{madmom}). The network architecture is based on Bi-directional Long Short-Term Memory recurrent neural networks. This network architecture was chosen for the following reasons:
 
-\textcite{moore} states that for years there were two theories on human pitch perception: place and temporal. The place theory, or place coding, is related to the tonotopic organization of the inner ear: spectral analysis is done in the cochlea, and the resolved harmonics of a sound excite different parts of the basilar membrane (BM), causing with different characteristic frequency (CF) to fire. The activated center frequencies may then be compared to a pattern of harmonics (but this second postulate is under debate). In the temporal theory, the unresolved harmonics form a complex waveform in the BM, and firing neurons lock to the phase of the envelope of the complex waveform. More complete, newer models that try to account for all the available experimental data rely on both place and temporal analyses.
+\begin{tight_itemize}
+	\vspace{-0.25em}
+	\item
+		In the most basic form of feed-forward neural network, the relationship of inputs to outputs is strictly causal, i.e., inputs at the current time compute outputs at the current time.
+	\item
+		To introduce using inputs from the past to influence current outputs, which is important in beat tracking, cycles are created in the network, leading to recurrent neural networks. However, these suffer from the vanishing gradient problem, which causes inputs to decay or blow up exponentially over time.
+	\item
+		The Long Short-Term Memory (LSTM) network solves the problem of the vanishing gradient by introducing memory gates within the recurrent unit.
+	\item
+		Finally, to consider inputs from the future in the output, a Bi-directional LSTM (BLSTM) network introduces a second hidden layer which introduces the inputs to the network in a reverse temporal order.
+\end{tight_itemize}
 
-In computational pitch tracking, fundamental frequency ($\mathit{f0}$) and pitch are used interchangeably.
+As past, present, and future inputs are all useful in a beat tracking algorithm, the BLSTM network from \textcite{rnnonset} was considered to be an appropriate choice. An additional modification was to introduce a peak picking stage for beat selection.
 
-\vfill
-\clearpage
+In their next paper, \textcite{bock3} adapted the RNNBeatProcessor to introduce multiple RNN models, each of which was trained on a different musical style, and added a dynamic Bayesian network in the front-end for the beat estimation. The choice of dynamic Bayesian network was based on prior work by \textcite{whiteley}, which achieved robust results in joint tempo and beat estimation.
 
-Computational pitch tracking has been studied for at least half a century (\cite{nollcepstrum}). A common family of approaches involves selecting candidates from a generating function, and performing pre- and post-processing to produce the pitch curve -- among the candidate functions are cepstrum (\cite{nollcepstrum}), autocorrelation function (\cite{acorr}), average magnitude difference function (\cite{amdf}), normalized cross-correlation function (RAPT and PRAAT; \cite{rapt, praat}), cumulative mean normalized difference function (YIN; \cite{yin}), and the normalized square difference function (\cite{mpm}). Some forms of post-processing of the pitch candidate functions involves peak picking or parabolic interpolation.
+In yet another follow-up paper, \textcite{bock2} modified the probabilistic tempo and beat sequence model of \cite{whiteley} to make it more computationally efficient (both in CPU cycles and memory) while maintaining the high accuracy of their solution in \cite{bock3}. The original joint tempo and beat model of \textcite{whiteley} is referred to as the \textit{tempo-bar model}, and it has two main deficiencies which were adjusted:
 
-Two more recent approaches include SWIPE (\cite{swipe}) which performs spectral template matching of the input sound against sawtooth waveforms, and pYIN (\cite{pyin}), a probablistic variant of YIN with a Hidden Markov Model (HMM) as a post-processing step to predict probable pitch sequences. The pitch space of pYIN is divided into 480 bins ranging over four octaves from A1 (55Hz) to A5 (880Hz) in steps of 10 cents. Finally, CREPE (\cite{crepe}) is the current state-of-the-art neural network for pitch tracking, and operates on the time-domain waveform directly, outputting a probability for 360 possible pitches ranging over six octaves between C1 (32.70Hz) and B7 (1975.5Hz) in steps of 20 cents. CREPE describes previous approaches as DSP-pipeline and heuristic-based, while claiming to be the first data-driven pitch tracker. The results of CREPE show it beating pYIN, the previous state-of-the-art according to several survey papers (\cite{comparison1, comparison2}).
+\begin{tight_enumerate}
+	\vspace{-0.25em}
+	\item
+		The tempo-bar model assumes that human tempo discrimination is consistent across all tempi and use linearly-spaced tempi, while \textcite{bock2} describe that in fact humans have finer tempo resolution at lower tempos. To achieve a tempo spacing consistent with the just-noticeable-difference (JND) limits of human tempo resolution with the linearly-spaced model requires a huge number of tempi, while using a nonlinear spacing of more tempi in the low tempo range and fewer tempi in the high tempo range significantly reduces the total number of possible tempi and matches human perception better.
+	\item
+		The tempo-bar model allows tempo transitions at any possible time, while \textcite{bock2} limit their more efficient model to only allow tempo transitions on beat locations, which is consistent with tempo transitions in music.
+\end{tight_enumerate}
 
-Another way to categorize pitch tracking algorithms is by the domain (time or frequency) in which they operate. \textcite{comparison3} provide yet another comprehensive survey of pitch tracking algorithms. Time domain methods include the previously mentioned autocorrelation function (ACF), YIN and RAPT, in addition to time domain excitation extraction based on a minimum perturbation operator (TEMPO; \cite{tempo1, tempo2}). Frequency domain methods include the previously mentioned SWIPE. Finally, there are a set of algorithms combine both approaches such as Aurora (\cite{aurora}), NDF (\cite{ndf}), and REAPER.\footnote{\href{https://github.com/google/REAPER}{https://github.com/google/REAPER}}
+The final algorithm for state-of-the-art beat tracking is therefore presented by \cite{bock2}, incorporating the algorithms from \cite{bock1} and \cite{bock3}, and achieving the best results in the last \textbf{M}usic \textbf{I}nformation \textbf{R}etrieval \textbf{E}valuation e\textbf{X}change audio beat tracking challenge.\footnote{\url{https://www.music-ir.org/mirex/wiki/2019:MIREX2019_Results}}
 
 \vfill
 \clearpage
 
 \noindent\LARGE{\textbf{Bibliography}}\\
 
-\vspace{-0.5em}
+\vspace{-1em}
 
 %\printbibheading[title={\vspace{-3.5em}References},heading=bibnumbered]
-%\nocite{*}
+\nocite{*}
 \printbibliography[heading=none]
 
 \end{document}
