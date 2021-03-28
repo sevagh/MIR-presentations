@@ -5,6 +5,7 @@
 \usepackage{multimedia}
 \usepackage{fancyvrb}
 \usepackage{multicol}
+\usepackage{optparams}
 \usepackage{adjustbox}
 \usepackage{tikz}
 \usetikzlibrary{shapes,positioning}
@@ -20,9 +21,31 @@
 \setbeameroption{show notes on second screen=right}
 %\setbeameroption{hide notes}
 
-\title{Pitch Tracking}
+\def\footshortciteintern[#1][#2]#3{%
+\ifx#1\empty 
+% Nur Autor
+\footnote{\citeauthor{#3}, \citeyear{#3}.}
+\else
+\ifx#2\empty
+% Autor und Seite
+\footnote{\citeauthor{#3}, \citeyear{#3}, #1.}
+\else
+% Autor, Seite und vgl.
+\expandafter  
+\footnote{\citeauthor{#3}, \citetitle{#3}, \citeyear{#3}, \citeurl{#3}.}
+\fi
+\fi
+}
+\newcommand*\footshortcite{%
+\optparams{\footshortciteintern}{[\empty][\empty]}
+}
+\newcommand*\footmediumcite{%
+\optparams{\footshortciteintern}{[][]}
+}
+
+\title{State-of-the-art Beat Tracking}
 \author{Sevag Hanssian}
-\date{March 23, 2021}
+\date{March 30, 2021}
 \institute{MUMT 621, Winter 2021}
 \setbeamertemplate{navigation symbols}{}
 
@@ -33,202 +56,140 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Pitch as a perceptual phenomenon}
-	Pitch is the perceptual correlate of frequency, and the aspect of auditory sensation whose variation is associated with musical melodies.\footfullcite{plack}\\\ \\
-	Pitch of a pure tone is its frequency; pitch of a complex tone is its lowest (or fundamental) frequency.\\\ \\
-	Pitch can be quantified using fundamental frequency (or $\mathit{f0}$); interchangeable terms outside psychoacoustical studies.\footfullcite{crepe}
+	\frametitle{madmom}
+	madmom is an open-source Python MIR library from the Institute of Computational Perception at the Johannes Kepler University,\footfullcite{madmom} containing implementations of the many beat tracking works of Sebastian B{\"o}ck and colleagues
 \end{frame}
 
-\note{
-	\begin{itemize}
-		\item
-			it's a bit more complicated. there's also a relationship between loudness and perceived pitch
-			previous bad definition:  the attribute of auditory sensation in terms of which sounds may be ordered on a scale extending from low to high\\
-			It requires the words ``low'' and ``high'' to be associated with pitch or frequency rather than with loudness or intensity, for example.
-	\end{itemize}
-}
-
 \begin{frame}
-	\frametitle{Pitch tracking algorithms}
-	\begin{itemize}
-		\item
-			Candidate-generating function with pre- and post-processing to produce the pitch curve\footcite{crepe}
-		\begin{itemize}
-			\item
-				Cepstrum 
-			\item
-				Autocorrelation function
-			\item
-				Average magnitude/square difference function (AMDF, ASDF)
-			\item
-				Normalized cross-correlation function (RAPT, PRAAT)
-			\item
-				Cumulative mean normalized difference (YIN)
-		\end{itemize}
-	\item
-		SWIPE: template matching with spectrum of sawtooth waveform
-	\item
-		pYIN: probabilistic YIN with Hidden Markov Models (HMM) to decode most probably pitch sequences (best performing\footfullcite{comparison1}, \footfullcite{comparison2})
-	\item
-		WavePitch: based on the fast lifting wavelet transform (FLWT)
-	\end{itemize}
+	\frametitle{State-of-the-art results}
+	The RNNBeatProcessor\footfullcite{bock1} $\rightarrow$ DBNBeatTrackingProcessor\footfullcite{bock2} algorithm achieved the best results in the last* \textbf{M}usic \textbf{I}nformation \textbf{R}etrieval \textbf{E}valuation e\textbf{X}change audio beat tracking challenge\footnote{\url{https://www.music-ir.org/mirex/wiki/2019:MIREX2019_Results}}\\\ \\
+
+	*: 2020 did not include beat tracking submissions
 \end{frame}
 
-\note{
-	\begin{itemize}
-		\item
-			YIN = yin and yang. the interplay of autocorrelation and cancellation
-	\end{itemize}
-}
-
 \begin{frame}
-	\frametitle{Autocorrelation}
+	\frametitle{State-of-the-art results}
 	\begin{figure}
-		\subfloat{\includegraphics[width=5.8cm]{./dsp_q.png}}
-		\hspace{0.1em}
-		\subfloat{\includegraphics[width=5.8cm]{./dsp_q2.png}}
-		\caption{Na{\"i}ve autocorrelation for guitar\footnote{\href{https://dsp.stackexchange.com/questions/19379/improving-an-auto-correlation-based-guitar-pitch-detector}{https://dsp.stackexchange.com/questions/19379/improving-an-auto-correlation-based-guitar-pitch-detector}}}
+		\subfloat[SMC (Sound and Music Computing at University of Porto) dataset results]{\includegraphics[width=12cm]{./smc.png}}\\
+		\vspace{0.1em}
+		\subfloat[MAZ (Chopin Mazurka) dataset results]{\includegraphics[width=12cm]{./maz.png}}
+		\caption{MIREX 2019 audio beat tracking results}
 	\end{figure}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Autocorrelation}
-	Autocorrelation: measure signal self-similarity by multiplying it with lagged copies of itself
-	\begin{figure}
-		\movie[width=8cm,height=5cm]{}{autocorrelation_example.gif}
-		\caption{Animation of sine wave autocorrelation\footnote{http://qingkaikong.blogspot.com/2017/01/signal-processing-how-autocorrelation.html}}
-		\vspace{-1em}
-	\end{figure}
+	\frametitle{Step 1: RNNBeatProcessor}
+	Traditional beat tracking algorithms use onsets, or the beginning of musical events,\footfullcite{onsets} as ``potential beats,'' upon which further post-processing is applied to get beat locations\footfullcite{ellis, goto, btrack}\\\ \\
+	The first algorithm, the RNNBeatProcessor\footcite{bock1}, replaces traditional onset detection with a bidirectional Long Short-Term Memory (BLSTM) recurrent neural network to output frame-by-frame beat activations
 \end{frame}
 
-\note{
+\begin{frame}
+	\frametitle{BLSTM}
+	\textcite{bock1}'s justification for using BLSTM architecture:
 	\begin{itemize}
 		\item
-			YIN = yin and yang. the interplay of autocorrelation and cancellation
-	\end{itemize}
-}
-
-\begin{frame}
-	\frametitle{Autocorrelation -- peak picking}
-	Peak picking: measure signal periodicity by measuring inter-peak distance on autocorrelation
-	\begin{figure}
-		\includegraphics[width=7.5cm]{./sine_autocorrelation.png}
-		\caption{Autocorrelation peaks, example: 83Hz sine wave\footnote{https://github.com/sevagh/pitch-detection/tree/master/misc/mcleod}}
-	\vspace{-1em}
-	\end{figure}
-	Peaks: [529, 1060, 1591, 2122, 2652, 3181, 3702]\\
-	Lag increment: \textasciitilde531 samples\\
-	Convert lag to pitch: 44100 Hz (sample rate) divided by 531 gives \textasciitilde83Hz, which is the frequency of the sine wave.
-\end{frame}
-
-\begin{frame}
-	\frametitle{YIN and McLeod Pitch Method -- better autocorrelation}
-	\begin{figure}
-		\subfloat[MPM's\footfullcite{mpm} normalized square difference function]{\includegraphics[width=5.75cm]{./open_e_nsdf.png}}
-		\hspace{0.1em}
-		\subfloat[YIN's\footfullcite{yin} cumulative mean normalized difference function]{\includegraphics[width=5.75cm]{./cmndf.png}}
-		\caption{YIN and MPM's variants of autocorrelation\footnote{https://github.com/sevagh/pitch-detection/tree/master/misc/mcleod, https://github.com/sevagh/pitch-detection/tree/master/misc/yin}}
-	\end{figure}
-\end{frame}
-
-\note{
-	\begin{itemize}
+			Most basic approach of neural networks is the multilayer perceptron (MLP) forming a feed forward (causal) neural network (FNN)
 		\item
-			Both functions related to autocorrelation, with the main correction that both discard the 0th lag -- signal max self-similarity at no lag.
-	\end{itemize}
-}
-
-\begin{frame}
-	\frametitle{YIN and McLeod Pitch Method -- better peak picking}
-	Better peak picking: parabolic interpolation in both
-	\begin{figure}
-		\includegraphics[height=6cm]{./parabolicinterp.png}
-		\caption{Parabolic interpolation to improve peak picking\footnote{https://ccrma.stanford.edu/~jos/SpecAnal/Parabolic\_Interpolation.html}}
-	\end{figure}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Autocorrelation vs. MPM}
-	\begin{figure}
-		\subfloat[Autocorrelation]{\includegraphics[width=5.75cm]{./open_e_peak_lags_wrong.png}}
-		\hspace{0.1em}
-		\subfloat[MPM]{\includegraphics[width=5.75cm]{./open_e_nsdf_peak_lags_best.png}}
-		\caption{Guitar signal superimposed on itself at peak lags\footnote{https://github.com/sevagh/pitch-detection/tree/master/misc/mcleod}}
-	\end{figure}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Musical importance of pitch}
-	Pitch is musically important to humans:\footfullcite{musicevo}
-	\begin{itemize}
+			Cyclic connections form a recurrent neural network (RNN), which can use past values but suffers from the vanishing gradient problem
 		\item
-			Relationships between pitches (relative pitch) are more important than the absolute value. Sequence of pitch changes is the melodic contour
-		\item
-			Pitches separated by an octave have the same pitch chroma. Most (known) music depends on pitch relations defined by octaves
-		\item
-			Most (known) music in the world come from a discrete set of five to seven pitches arranged within an octave range
+			Long Short-Term Memory (LSTM) solves this problem. If the past \textit{and} future of input are both important, Bidirectional LSTMs add a new layer presented to the network in reverse temporal order
 	\end{itemize}
 \end{frame}
 
 \note{
 	\begin{itemize}
 		\item
-			Although rhythm is arguably just as important, if not more so, to many cultures' music, pitch has received far more attention in the literature we will review, likely due to its importance in Western music and the resultant theoretical ideas about how pitch functions in music.
+			strictly causal network, where the output is calculated directly from the input values
 		\item
-			Pitch is universal, but the centrality of relative pitch indicates some innate auditory mechanism for encoding sound as pitch distances. Humans are good at ``melodic contour'', i.e. recognizing a melody whether it is transposed in tempo or octave.
-		\item
-			Limitations of memory and categorization, or sensory or computational bias to have intervals that approximate simple integer ratios
+			inputs decaying or blowing up exponentially over time is called the vanishing gradient problem
 	\end{itemize}
 }
 
 \begin{frame}
-	\frametitle{pYIN -- musically probable pitch sequences}
-	\begin{figure}
-		\subfloat[Multiple pitch candidates]{\includegraphics[height=3.5cm]{./pyin.png}}
-		\hspace{0.1em}
-		\subfloat[Pitch sequence HMM]{\makebox[0.4\textwidth]{\includegraphics[height=3.5cm]{./pyin_hmm.png}}}
-		\caption{Building probabilistic YIN\footfullcite{pyin} from YIN}
-		\vspace{-1.5em}
-	\end{figure}
-	Pitch space is divided into 480 bins ranging over four octaves from 55Hz (A1) to just under 880Hz (A5) in steps of 10 cents (0.1 semitones)
-\end{frame}
-
-\note{
-	\begin{itemize}
-	\item
-		the pitch candidates are used as observation probabilities. the transition probabilities are used to come up with the final pitch estimate
-	\end{itemize}
-}
-
-\begin{frame}
-	\frametitle{CREPE -- current state-of-the-art}
-	\begin{quote}
-		Best performing techniques such as the pYIN algorithm, are based on a combination of DSP pipelines and heuristics. [...] we propose a data-driven pitch tracking algorithm, CREPE, which is based on a deep convolutional neural network that operates directly on the time-domain waveform.\footcite{crepe}
-	\end{quote}
-	\begin{figure}
-		\includegraphics[width=10cm]{./crepe_arch.png}
-		\caption{CREPE network architecture}
-		\vspace{-1em}
-	\end{figure}
-	360 pitch values are are selected so that they cover six octaves with 20-cent intervals between C1 and B7, corresponding to 32.70 Hz and 1975.5 Hz.
-\end{frame}
-
-\begin{frame}
-	\frametitle{Human pitch perception}
-Initially two theories of human pitch perception: place and temporal.\footfullcite{moore}\\\ \\
-	In the place theory (place coding), spectral analysis is done in the cochlea, so that the \textit{resolved} harmonics of a sound excite different parts of the basilar membrane (BM), firing neurons with different characteristic frequency.\\\ \\
-	In the temporal theory (temporal coding, phase locking), the \textit{unresolved} harmonics form a complex waveform in the BM, and firing neurons lock to the phase of the envelope of the complex waveform.
-\end{frame}
-
-\note{
+	\frametitle{Step 1: RNNBeatProcessor}
 	\begin{itemize}
 		\item
-			First part is related to the tonotopic organization of the inner ear -- well established and independently confirmed in different studies. 100,200,300hz example. Second is still a matter of dispute
+			Originates from BLSTM onset detection algorithm\footfullcite{rnnonset}
 		\item
-			gabor tf uncertainty principle. Our real sensitivity to <1\% differences in fundamental frequencies for resolved harmonics is better than what would be possible with firing rate/place coding, suggesting temporal coding
-		\item
-			More sophisticated models (which explain or account for human experimental data) require both place and temporal analyses (pitch can be recognized even with unresolved harmonics). Tentative neural component, processed after the ears -- two harmonics presented to different ears create the correct fundamental.
+			Modified to ``suit the needs for audio beat detection by modifying the input representation and adding an advanced peak detection stage''\footcite{bock1}
 	\end{itemize}
-}
+	\begin{figure}
+		\includegraphics[height=3.5cm]{./rnnbeat.png}
+		\caption{RNNBeatProcessor architecture}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Step 2: DBNBeatTrackingProcessor}
+	DBNBeatTrackingProcessor:\footfullcite{bock3}
+	\begin{itemize}
+		\item
+			Use \textcite{bock1}'s RNNBeatProcessor with multiple RNNs for different, heterogenous music styles
+		\item
+			Add an additional dynamic Bayesian network stage\footfullcite{whiteley} which jointly infers the tempo and the beat phase from the beat activations of the RNN stage
+		\item
+			More efficient implementation of the DBN proposed by \textcite{bock2}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Step 2: DBNBeatTrackingProcessor}
+	\begin{figure}
+		\includegraphics[height=5cm]{./multirnn.png}
+		\caption{Multi-model RNN + DBN architecture}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Bar-pointer model}
+	Popular model that jointly models tempo and bar position, called the \textit{bar pointer model}\footshortcite{whiteley} is inefficient: ``these algorithms share the problem of a high space and time complexity because of the huge state-space in which they perform inference''\footshortcite{bock2}
+	\begin{enumerate}
+		\item
+			Non-linear tempo resolution matching humans
+		\item
+			Only allow tempo transitions on beat locations
+	\end{enumerate}
+	\begin{figure}
+		\includegraphics[height=3.25cm]{./efficient.png}
+		\caption{More efficient tempo-bar model}
+	\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Complete example}
+	Suggested usage from madmom docs:\footnote{\url{https://madmom.readthedocs.io/en/latest/modules/features/beats.html}}
+	\begin{Verbatim}[fontsize=\small]
+>>> proc = DBNBeatTrackingProcessor(fps=100)
+<madmom.features.beats.DBNBeatTrackingProcessor object at 0x...>
+>>> act = RNNBeatProcessor()('tests/data/audio/sample.wav')
+>>> proc(act)
+array([0.1 , 0.45, 0.8 , 1.12, 1.48, 1.8 , 2.15, 2.49])
+	\end{Verbatim}
+\end{frame}
+
+\begin{frame}
+	\adjustbox{valign=c}{{\usebeamerfont{frametitle}\usebeamercolor[fg]{frametitle}Conclusion}}\hfill
+	\adjustbox{valign=c}{
+	\newcounter{year}
+	\begin{tikzpicture}[yscale=0.5,%
+		   year/.style={draw=red,text=blue,fill=yellow!20,shape=ellipse,inner sep=2pt},
+		   description/.style={rectangle,align=left,text width=60mm,anchor=west},
+		   timeline/.style={->,thick,red!50}]
+
+	    \foreach \year/\desc [count=\y] in {%
+		    2011/\textcite{bock1} introduced state-of-the-art algorithm for beat tracking with a BLSTM recurrent neural network,%
+		    2014/\textcite{bock3} improved the first algorithm by training multiple RNNs on different music styles and combining it with a dynamic Bayesian network for the final beat inference,%
+		    2015/\textcite{bock2} introduced a new discretisation and tempo transition model that can be used as a drop-in replacement for variants of the bar pointer model%
+	       } { \ifnum\y=1 \node[description](\y){\desc};
+		   \else\node[description,below=1ex of \z](\y){\desc};
+		   \fi
+		   \node[year](y-\y) [left=of \y] {\year};
+		   \ifnum\y>1\draw[timeline] (y-\z)-- (y-\y);\fi
+		   \global\let\z=\y% for drawing from last node
+	       }
+
+	\end{tikzpicture}
+	}
+\end{frame}
 
 \end{document}
